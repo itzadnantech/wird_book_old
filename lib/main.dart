@@ -51,7 +51,9 @@ class _MyAppState extends State<MyApp> {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Wird Book App",
-        theme: ThemeData(primarySwatch: Colors.blue),
+        theme: ThemeData(
+          primaryColor: Color.fromARGB(255, 6, 20, 97),
+        ),
         locale: _locale,
         supportedLocales: [
           Locale("en", "US"),

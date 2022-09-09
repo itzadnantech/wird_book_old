@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:wird_book/classes/language.dart';
 import 'package:wird_book/localization/language_constants.dart';
 import 'package:wird_book/main.dart';
+// import 'package:wird_book/page_manager.dart';
 import 'package:wird_book/pages/all_wird_sub_cat_page.dart';
 import 'package:wird_book/data/all_wirds.dart';
 import 'package:wird_book/model/wird.dart';
@@ -22,37 +24,93 @@ class AllWirdsPage extends StatefulWidget {
 class _AllWirdsPageState extends State<AllWirdsPage> {
   List<Wird> wirds;
 
-  /// Compulsory
-  final player = AudioPlayer();
-  String url = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3';
+  final progressNotifier = ValueNotifier<ProgressBarState>(
+    ProgressBarState(
+      current: Duration.zero,
+      buffered: Duration.zero,
+      total: Duration.zero,
+    ),
+  );
+  final buttonNotifier = ValueNotifier<ButtonState>(ButtonState.paused);
+
+  AudioPlayer _audioPlayer;
 
   @override
   void initState() {
     super.initState();
+    _init();
     wirds = all_wirds
         .where((medium) =>
             medium.wird_sub_cat_id == widget.wird_sub_cat_id &&
             medium.wird_cat_id == widget.wird_cat_id)
         .toList();
-    player.stop();
   }
 
-  /// Compulsory
-  playMusic() async {
-    final duration = await player.setUrl(widget.wird_audio_link);
-    player.play();
+  void _init() async {
+    _audioPlayer = AudioPlayer();
+
+    await _audioPlayer.setUrl(widget.wird_audio_link);
+
+    _audioPlayer.playerStateStream.listen((playerState) {
+      final isPlaying = playerState.playing;
+      final processingState = playerState.processingState;
+      if (processingState == ProcessingState.loading ||
+          processingState == ProcessingState.buffering) {
+        buttonNotifier.value = ButtonState.loading;
+      } else if (!isPlaying) {
+        buttonNotifier.value = ButtonState.paused;
+      } else if (processingState != ProcessingState.completed) {
+        buttonNotifier.value = ButtonState.playing;
+      } else {
+        _audioPlayer.seek(Duration.zero);
+        _audioPlayer.pause();
+      }
+    });
+
+    _audioPlayer.positionStream.listen((position) {
+      final oldState = progressNotifier.value;
+      progressNotifier.value = ProgressBarState(
+        current: position,
+        buffered: oldState.buffered,
+        total: oldState.total,
+      );
+    });
+
+    _audioPlayer.bufferedPositionStream.listen((bufferedPosition) {
+      final oldState = progressNotifier.value;
+      progressNotifier.value = ProgressBarState(
+        current: oldState.current,
+        buffered: bufferedPosition,
+        total: oldState.total,
+      );
+    });
+
+    _audioPlayer.durationStream.listen((totalDuration) {
+      final oldState = progressNotifier.value;
+      progressNotifier.value = ProgressBarState(
+        current: oldState.current,
+        buffered: oldState.buffered,
+        total: totalDuration ?? Duration.zero,
+      );
+    });
   }
 
-  /// Compulsory
-  pauseMusic() async {
-    await player.pause();
+  void play() {
+    _audioPlayer.play();
   }
 
-  @override
-  void dispose() {
-    player.dispose();
-    super.dispose();
+  void pause() {
+    _audioPlayer.pause();
   }
+
+  void seek(Duration position) {
+    _audioPlayer.seek(position);
+  }
+
+  // void dispose() {
+  //   super.dispose();
+  //   _audioPlayer.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,34 +125,73 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                 "_" +
                 widget.wird_sub_cat_id)),
       ),
-      body: SafeArea(
+      body: Padding(
+        padding: EdgeInsets.only(top: 10, left: 10, right: 10),
         child: Column(
           children: [
-            Container(
-              padding: EdgeInsets.only(top: 10),
-              child: Wrap(
-                spacing: 10,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: playMusic,
-                    icon: Icon(Icons.play_arrow),
-                    label: Text(getTranslated(context, 'playbtn')),
-                    style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 6, 20, 97)),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: pauseMusic,
-                    icon: Icon(Icons.stop),
-                    label: Text(getTranslated(context, 'stopbtn')),
-                    style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 6, 20, 97)),
-                  ),
-                ],
-              ),
+            ValueListenableBuilder<ProgressBarState>(
+              valueListenable: progressNotifier,
+              builder: (_, value, __) {
+                return ProgressBar(
+                  progress: value.current,
+                  buffered: value.buffered,
+                  total: value.total,
+                  onSeek: seek,
+                );
+              },
             ),
+
+            ValueListenableBuilder<ButtonState>(
+              valueListenable: buttonNotifier,
+              builder: (_, value, __) {
+                switch (value) {
+                  case ButtonState.loading:
+                    return Container(
+                      margin: const EdgeInsets.all(8.0),
+                      width: 32.0,
+                      height: 32.0,
+                      child: const CircularProgressIndicator(),
+                    );
+                  case ButtonState.paused:
+                    return IconButton(
+                      icon: const Icon(Icons.play_arrow),
+                      iconSize: 32.0,
+                      onPressed: play,
+                    );
+                  case ButtonState.playing:
+                    return IconButton(
+                      icon: const Icon(Icons.pause),
+                      iconSize: 32.0,
+                      onPressed: pause,
+                    );
+                }
+              },
+            ),
+            // Container(
+            //   padding: EdgeInsets.only(top: 10),
+            //   child: Wrap(
+            //     spacing: 10,
+            //     children: [
+            //       ElevatedButton.icon(
+            //         onPressed: playMusic,
+            //         icon: Icon(Icons.play_arrow),
+            //         label: Text(getTranslated(context, 'playbtn')),
+            //         style: ElevatedButton.styleFrom(
+            //             primary: Color.fromARGB(255, 6, 20, 97)),
+            //       ),
+            //       ElevatedButton.icon(
+            //         onPressed: pauseMusic,
+            //         icon: Icon(Icons.stop),
+            //         label: Text(getTranslated(context, 'stopbtn')),
+            //         style: ElevatedButton.styleFrom(
+            //             primary: Color.fromARGB(255, 6, 20, 97)),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              height: MediaQuery.of(context).size.height * 0.8,
+              height: 500,
               child: ListView.builder(
                   itemCount: wirds.length,
                   itemBuilder: (context, index) {
@@ -138,3 +235,16 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
         ),
       );
 }
+
+class ProgressBarState {
+  ProgressBarState({
+    this.current,
+    this.buffered,
+    this.total,
+  });
+  final Duration current;
+  final Duration buffered;
+  final Duration total;
+}
+
+enum ButtonState { paused, playing, loading }
