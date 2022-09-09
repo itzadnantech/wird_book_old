@@ -34,6 +34,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
             medium.wird_sub_cat_id == widget.wird_sub_cat_id &&
             medium.wird_cat_id == widget.wird_cat_id)
         .toList();
+    player.stop();
   }
 
   /// Compulsory
@@ -45,6 +46,12 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   /// Compulsory
   pauseMusic() async {
     await player.pause();
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
   }
 
   @override
