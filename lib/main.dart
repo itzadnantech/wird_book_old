@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wird_book/localization/demo_localization.dart';
-import 'package:wird_book/router/custom_router.dart';
-import 'package:wird_book/router/route_constants.dart';
 import 'package:wird_book/pages/athkars_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 import 'localization/language_constants.dart';
 

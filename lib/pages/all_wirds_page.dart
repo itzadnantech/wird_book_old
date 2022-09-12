@@ -107,10 +107,10 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
     _audioPlayer.seek(position);
   }
 
-  // void dispose() {
-  //   super.dispose();
-  //   _audioPlayer.dispose();
-  // }
+  void dispose() {
+    super.dispose();
+    _audioPlayer.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +191,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
             // ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              height: 500,
+              height: 530,
               child: ListView.builder(
                   itemCount: wirds.length,
                   itemBuilder: (context, index) {
