@@ -191,7 +191,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
             // ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              height: 530,
+              height: 600,
               child: ListView.builder(
                   itemCount: wirds.length,
                   itemBuilder: (context, index) {
@@ -202,7 +202,14 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                         single_wird.wird_sub_cat_id +
                         "_" +
                         single_wird.wird_id;
-                    return WirdCards(single_wird, wird_translate, context);
+                    String wird_count = getTranslated(context, 'wird') +
+                        '  ' +
+                        getTranslated(context, single_wird.wird_id);
+                    String Repetition = getTranslated(context, 'repetition') +
+                        '  ' +
+                        getTranslated(context, single_wird.repetition);
+                    return WirdCards(single_wird, wird_translate, Repetition,
+                        wird_count, context);
                   }),
             )
           ],
@@ -212,7 +219,9 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   }
 
   @override
-  Widget WirdCards(Wird single_wird, wird_translate, context) => Container(
+  Widget WirdCards(
+          Wird single_wird, wird_translate, Repetition, wird_count, context) =>
+      Container(
         width: MediaQuery.of(context).size.width * 0.8,
         child: Card(
           color: Colors.white,
@@ -221,7 +230,9 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
               child: ListTile(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   title: Text(
-                    getTranslated(context, "wird_" + single_wird.wird_id),
+                    wird_count + '\n\n' + Repetition + '\n\n',
+                    // getTranslated(context, "wird_" + single_wird.wird_id),
+
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 15,

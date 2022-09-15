@@ -4,6 +4,7 @@ class Wird {
   final String wird_id;
   final String wird_description;
   final String wird_audio_link;
+  final String repetition;
 
   const Wird({
     this.wird_cat_id,
@@ -11,6 +12,7 @@ class Wird {
     this.wird_id,
     this.wird_description,
     this.wird_audio_link,
+    this.repetition,
   });
 
   factory Wird.fromJson(Map<String, dynamic> json) => Wird(
@@ -19,6 +21,7 @@ class Wird {
         wird_id: json['wird_id'],
         wird_description: json['wird_description'],
         wird_audio_link: json['wird_audio_link'],
+        repetition: json['repetition'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -27,5 +30,6 @@ class Wird {
         'wird_id': wird_id,
         'wird_description': wird_description,
         'wird_audio_link': wird_audio_link,
+        'repetition': repetition,
       };
 }
