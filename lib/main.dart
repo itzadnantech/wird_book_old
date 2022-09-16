@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wird_book/localization/demo_localization.dart';
-import 'package:wird_book/router/custom_router.dart';
-import 'package:wird_book/router/route_constants.dart';
 import 'package:wird_book/pages/athkars_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 import 'localization/language_constants.dart';
 
@@ -51,7 +50,9 @@ class _MyAppState extends State<MyApp> {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Wird Book App",
-        theme: ThemeData(primarySwatch: Colors.blue),
+        theme: ThemeData(
+          primaryColor: Color.fromARGB(255, 6, 20, 97),
+        ),
         locale: _locale,
         supportedLocales: [
           Locale("en", "US"),

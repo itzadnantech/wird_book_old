@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Wird {
   final String wird_cat_id;
   final String wird_sub_cat_id;

@@ -22,17 +22,9 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
   @override
   void initState() {
     super.initState();
-    // final subwirds = allSubWird.where((e) => e['wird_id'] == '1');
-    // subwirds = all_wird_sub_cats.where((list) {
-    //   final wirdLower = list.wird_cat_id.toLowerCase();
-    //   return wirdLower.contains(widget.wird_cat_id);
-    // }).toList();
-
     subwirds = all_wird_sub_cats
         .where((medium) => medium.wird_cat_id == widget.wird_cat_id)
         .toList();
-
-    // subwirds = allSubWird.where((e) => e["wird_id"] = 10).toList();
   }
 
   @override
