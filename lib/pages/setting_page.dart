@@ -32,23 +32,52 @@ class _SettingPageState extends State<SettingPage> {
       ),
       body: Center(
           child: Column(children: <Widget>[
+        Divider(),
         Text(
-          'Welcome to Flutter Tutorial',
-          style: TextStyle(fontSize: fontSize),
+          'Test Font Size',
+          style: TextStyle(
+              fontSize:
+                  Provider.of<FontSizeController>(context, listen: true).value),
         ),
+        Divider(),
         ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor:
+                MaterialStatePropertyAll<Color>(Color.fromARGB(255, 6, 20, 97)),
+          ),
           onPressed: () {
-            changeFontSize();
+            Provider.of<FontSizeController>(context, listen: false).increment();
           },
           child: Text('Increase Font'),
         ),
+        Divider(),
         ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor:
+                MaterialStatePropertyAll<Color>(Color.fromARGB(255, 6, 20, 97)),
+          ),
           onPressed: () {
-            decreaseFontSize();
+            Provider.of<FontSizeController>(context, listen: false).decrement();
           },
           child: Text('Decrease Font'),
         ),
       ])),
     );
+  }
+}
+
+class FontSizeController with ChangeNotifier {
+  double _value = 15.0;
+
+  double get value => _value;
+
+  void increment() {
+    _value++;
+    notifyListeners();
+  }
+
+  void decrement() {
+    _value--;
+    notifyListeners();
   }
 }

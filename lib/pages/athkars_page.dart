@@ -8,6 +8,7 @@ import 'package:wird_book/widget/search_widget.dart';
 import 'package:wird_book/data/all_wird_cats.dart';
 import 'package:wird_book/model/wird_category.dart';
 import 'package:wird_book/pages/setting_page.dart';
+import 'package:provider/provider.dart';
 
 class AthkarsPage extends StatefulWidget {
   const AthkarsPage({Key key}) : super(key: key);
@@ -67,7 +68,11 @@ class _AthkarsPageState extends State<AthkarsPage> {
                         children: <Widget>[
                           Text(
                             e.name,
-                            style: const TextStyle(fontSize: 20),
+                            style: TextStyle(
+                                fontSize: Provider.of<FontSizeController>(
+                                        context,
+                                        listen: true)
+                                    .value),
                           )
                         ],
                       ),
@@ -150,8 +155,9 @@ class _AthkarsPageState extends State<AthkarsPage> {
           leading: Text(
             getTranslated(
                 context, 'wird_cat_id_' + single_wird_category.wird_cat_id),
-            style: const TextStyle(
-                // fontSize: 15,
+            style: TextStyle(
+                fontSize: Provider.of<FontSizeController>(context, listen: true)
+                    .value,
                 color: Color.fromARGB(255, 6, 20, 97),
                 fontWeight: FontWeight.w400),
           ),

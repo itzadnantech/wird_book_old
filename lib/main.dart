@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:wird_book/localization/demo_localization.dart';
 import 'package:wird_book/pages/athkars_page.dart';
+import 'package:wird_book/pages/setting_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-
+import 'package:provider/provider.dart';
 import 'localization/language_constants.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => FontSizeController()),
+        ],
+        child: MyApp(),
+      ),
+    );
 
 class MyApp extends StatefulWidget {
   const MyApp({Key key}) : super(key: key);
@@ -43,7 +50,8 @@ class _MyAppState extends State<MyApp> {
       return Container(
         child: Center(
           child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[800])),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  Color.fromARGB(255, 6, 20, 97))),
         ),
       );
     } else {

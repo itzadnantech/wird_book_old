@@ -6,6 +6,8 @@ import 'package:wird_book/pages/athkars_page.dart';
 import 'package:wird_book/pages/all_wirds_page.dart';
 import 'package:wird_book/data/all_wird_sub_cats.dart';
 import 'package:wird_book/model/wird_sub_category.dart';
+import 'package:wird_book/pages/setting_page.dart';
+import 'package:provider/provider.dart';
 
 class AllWirdSubCatPage extends StatefulWidget {
   final String wird_cat_id;
@@ -82,7 +84,8 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
             getTranslated(context, sub_wird_title),
             // list.wird_sub_cat_title,
             style: TextStyle(
-                fontSize: 15,
+                fontSize: Provider.of<FontSizeController>(context, listen: true)
+                    .value,
                 color: Color.fromARGB(255, 6, 20, 97),
                 fontWeight: FontWeight.w400),
           ),

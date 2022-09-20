@@ -8,6 +8,8 @@ import 'package:wird_book/pages/all_wird_sub_cat_page.dart';
 import 'package:wird_book/data/all_wirds.dart';
 import 'package:wird_book/model/wird.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:wird_book/pages/setting_page.dart';
+import 'package:provider/provider.dart';
 
 class AllWirdsPage extends StatefulWidget {
   final String wird_cat_id;
@@ -234,8 +236,10 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                     // getTranslated(context, "wird_" + single_wird.wird_id),
 
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 15,
+                    style: TextStyle(
+                        fontSize: Provider.of<FontSizeController>(context,
+                                listen: true)
+                            .value,
                         color: Color.fromARGB(255, 6, 20, 97),
                         fontWeight: FontWeight.w400),
                   ),
