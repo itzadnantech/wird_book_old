@@ -7,6 +7,7 @@ import 'package:wird_book/router/route_constants.dart';
 import 'package:wird_book/widget/search_widget.dart';
 import 'package:wird_book/data/all_wird_cats.dart';
 import 'package:wird_book/model/wird_category.dart';
+import 'package:wird_book/pages/setting_page.dart';
 
 class AthkarsPage extends StatefulWidget {
   const AthkarsPage({Key key}) : super(key: key);
@@ -75,6 +76,11 @@ class _AthkarsPageState extends State<AthkarsPage> {
                   .toList(),
             ),
           ),
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                _navigateToSettingPage(context);
+              }),
         ],
       ),
       // drawer: Drawer(
@@ -145,7 +151,7 @@ class _AthkarsPageState extends State<AthkarsPage> {
             getTranslated(
                 context, 'wird_cat_id_' + single_wird_category.wird_cat_id),
             style: const TextStyle(
-                fontSize: 15,
+                // fontSize: 15,
                 color: Color.fromARGB(255, 6, 20, 97),
                 fontWeight: FontWeight.w400),
           ),
@@ -182,5 +188,11 @@ class _AthkarsPageState extends State<AthkarsPage> {
       this.query = query;
       this.list_wird_category = list_wird_category;
     });
+  }
+
+  ///Setting Page
+  void _navigateToSettingPage(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => SettingPage()));
   }
 }
