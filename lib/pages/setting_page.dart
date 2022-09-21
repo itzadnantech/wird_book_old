@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wird_book/config/fontSize.dart' as GlobalsFont;
 
 class SettingPage extends StatefulWidget {
   SettingPage({Key key}) : super(key: key);
@@ -9,24 +10,6 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  double fontSize = 20;
-  double _currentSliderValue = 14;
-  void changeFontSize() async {
-    setState(() {
-      if (fontSize == 40) {
-        fontSize = 40;
-      } else {
-        fontSize += 2;
-      }
-    });
-  }
-
-  void decreaseFontSize() async {
-    setState(() {
-      fontSize -= 2;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,33 +49,37 @@ class _SettingPageState extends State<SettingPage> {
                 ),
               ),
             ),
-            // buildSlider(context),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  Provider.of<FontSizeController>(context, listen: false)
-                      .decrement();
-                },
-                child: Icon(Icons.remove),
-                style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(5),
-                    backgroundColor: Color.fromARGB(255, 6, 20, 97)),
-              ),
-              SizedBox(width: 0),
-              buildSlider(context),
-              SizedBox(width: 0),
-              ElevatedButton(
-                onPressed: () {
-                  Provider.of<FontSizeController>(context, listen: false)
-                      .increment();
-                },
-                child: Icon(Icons.add),
-                style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(5),
-                    backgroundColor: Color.fromARGB(255, 6, 20, 97)),
-              ),
+              Flexible(
+                  flex: 1,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    // onPressed: () {
+                    //   Provider.of<FontSizeController>(context, listen: false)
+                    //       .decrement();
+                    // },
+                    child: Icon(Icons.remove),
+                    style: ElevatedButton.styleFrom(
+                        shape: CircleBorder(),
+                        padding: EdgeInsets.all(5),
+                        backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+                  )),
+              Flexible(flex: 6, child: buildSlider(context)),
+              Flexible(
+                flex: 1,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  // onPressed: () {
+                  //   Provider.of<FontSizeController>(context, listen: false)
+                  //       .increment();
+                  // },
+                  child: Icon(Icons.add),
+                  style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(5),
+                      backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+                ),
+              )
             ]),
             Divider()
           ])),
@@ -101,22 +88,24 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget buildSlider(BuildContext context) {
+    double _currentSliderValue =
+        Provider.of<FontSizeController>(context, listen: true).value;
     return Slider(
       value: Provider.of<FontSizeController>(context, listen: true).value,
       activeColor: Color.fromARGB(255, 6, 20, 97),
       max: 30,
       min: 14,
-      divisions: 8,
+      divisions: 16,
       label: Provider.of<FontSizeController>(context, listen: true)
           .value
           .round()
           .toString(),
       onChanged: (double value) {
-        // if (value < _currentSliderValue) {
-        //   Provider.of<FontSizeController>(context, listen: false).decrement();
-        // } else {
-        //   Provider.of<FontSizeController>(context, listen: false).increment();
-        // }
+        if (value < _currentSliderValue) {
+          Provider.of<FontSizeController>(context, listen: false).decrement();
+        } else {
+          Provider.of<FontSizeController>(context, listen: false).increment();
+        }
         setState(() {
           _currentSliderValue = value;
           print(_currentSliderValue);
@@ -127,13 +116,11 @@ class _SettingPageState extends State<SettingPage> {
 }
 
 class FontSizeController with ChangeNotifier {
-  double _value = 14.0;
-
+  double _value = GlobalsFont.fontSize;
   double get value => _value;
-
   void increment() {
     // _value++;
-    _value = _value + 2;
+    _value = _value + 1;
     if (_value > 30) {
       _value = 30;
     }
@@ -142,7 +129,7 @@ class FontSizeController with ChangeNotifier {
 
   void decrement() {
     // _value--;
-    _value = _value - 2;
+    _value = _value - 1;
     if (_value < 14) {
       _value = 14;
     }
