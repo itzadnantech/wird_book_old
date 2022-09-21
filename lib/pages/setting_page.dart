@@ -53,30 +53,34 @@ class _SettingPageState extends State<SettingPage> {
               Flexible(
                   flex: 1,
                   child: ElevatedButton(
-                    onPressed: () {},
-                    // onPressed: () {
-                    //   Provider.of<FontSizeController>(context, listen: false)
-                    //       .decrement();
-                    // },
-                    child: Icon(Icons.remove),
+                    // onPressed: () {},
+                    onPressed: () {
+                      Provider.of<FontSizeController>(context, listen: false)
+                          .decrement();
+                    },
+                    child: Icon(
+                      Icons.remove,
+                    ),
                     style: ElevatedButton.styleFrom(
                         shape: CircleBorder(),
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(20),
                         backgroundColor: Color.fromARGB(255, 6, 20, 97)),
                   )),
-              Flexible(flex: 6, child: buildSlider(context)),
+              Flexible(flex: 12, child: buildSlider(context)),
               Flexible(
                 flex: 1,
                 child: ElevatedButton(
-                  onPressed: () {},
-                  // onPressed: () {
-                  //   Provider.of<FontSizeController>(context, listen: false)
-                  //       .increment();
-                  // },
-                  child: Icon(Icons.add),
+                  // onPressed: () {},
+                  onPressed: () {
+                    Provider.of<FontSizeController>(context, listen: false)
+                        .increment();
+                  },
+                  child: Icon(
+                    Icons.add,
+                  ),
                   style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
-                      padding: EdgeInsets.all(5),
+                      padding: EdgeInsets.all(20),
                       backgroundColor: Color.fromARGB(255, 6, 20, 97)),
                 ),
               )
@@ -95,7 +99,7 @@ class _SettingPageState extends State<SettingPage> {
       activeColor: Color.fromARGB(255, 6, 20, 97),
       max: 30,
       min: 14,
-      divisions: 16,
+      divisions: 8,
       label: Provider.of<FontSizeController>(context, listen: true)
           .value
           .round()
@@ -120,7 +124,7 @@ class FontSizeController with ChangeNotifier {
   double get value => _value;
   void increment() {
     // _value++;
-    _value = _value + 1;
+    _value = _value + 2;
     if (_value > 30) {
       _value = 30;
     }
@@ -129,7 +133,7 @@ class FontSizeController with ChangeNotifier {
 
   void decrement() {
     // _value--;
-    _value = _value - 1;
+    _value = _value - 2;
     if (_value < 14) {
       _value = 14;
     }
