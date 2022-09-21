@@ -51,7 +51,7 @@ class _SettingPageState extends State<SettingPage> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Flexible(
-                  flex: 1,
+                  flex: 2,
                   child: ElevatedButton(
                     // onPressed: () {},
                     onPressed: () {
@@ -63,12 +63,12 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                     style: ElevatedButton.styleFrom(
                         shape: CircleBorder(),
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.all(5),
                         backgroundColor: Color.fromARGB(255, 6, 20, 97)),
                   )),
               Flexible(flex: 12, child: buildSlider(context)),
               Flexible(
-                flex: 1,
+                flex: 2,
                 child: ElevatedButton(
                   // onPressed: () {},
                   onPressed: () {
@@ -80,7 +80,7 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(5),
                       backgroundColor: Color.fromARGB(255, 6, 20, 97)),
                 ),
               )
