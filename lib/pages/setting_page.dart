@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wird_book/config/fontSize.dart' as GlobalsFont;
+import 'package:wird_book/localization/language_constants.dart';
+import 'package:wird_book/classes/language.dart';
 
 class SettingPage extends StatefulWidget {
   SettingPage({Key key}) : super(key: key);
@@ -16,7 +18,7 @@ class _SettingPageState extends State<SettingPage> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 6, 20, 97),
         centerTitle: true,
-        title: Text("Setting"),
+        title: Text(getTranslated(context, 'SettingPage')),
       ),
       body: Padding(
           padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
@@ -38,7 +40,7 @@ class _SettingPageState extends State<SettingPage> {
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(vertical: 1.0),
                 title: Text(
-                  'Manage Font Size',
+                  getTranslated(context, 'FontSize'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize:
@@ -85,7 +87,34 @@ class _SettingPageState extends State<SettingPage> {
                 ),
               )
             ]),
-            Divider()
+            Divider(),
+            Container(
+              margin: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(.9),
+                    blurRadius: 2.0, // soften the shadow
+                    spreadRadius: 2.0, //extend the shadow
+                  )
+                ],
+              ),
+              child: ListTile(
+                contentPadding: EdgeInsets.symmetric(vertical: 1.0),
+                title: Text(
+                  getTranslated(context, 'LanguageSetting'),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize:
+                          Provider.of<FontSizeController>(context, listen: true)
+                              .value,
+                      color: Color.fromARGB(255, 6, 20, 97),
+                      fontWeight: FontWeight.w400),
+                ),
+              ),
+            ),
           ])),
     );
   }
