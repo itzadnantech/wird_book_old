@@ -128,92 +128,89 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                 widget.wird_sub_cat_id)),
       ),
       body: Padding(
-        padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+        padding: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
         child: Column(
           children: [
-            ValueListenableBuilder<ProgressBarState>(
-              valueListenable: progressNotifier,
-              builder: (_, value, __) {
-                return ProgressBar(
-                  progress: value.current,
-                  buffered: value.buffered,
-                  total: value.total,
-                  onSeek: seek,
-                );
-              },
-            ),
-
-            ValueListenableBuilder<ButtonState>(
-              valueListenable: buttonNotifier,
-              builder: (_, value, __) {
-                switch (value) {
-                  case ButtonState.loading:
-                    return Container(
-                      margin: const EdgeInsets.all(8.0),
-                      width: 32.0,
-                      height: 32.0,
-                      child: const CircularProgressIndicator(),
-                    );
-                  case ButtonState.paused:
-                    return IconButton(
-                      icon: const Icon(Icons.play_arrow),
-                      iconSize: 32.0,
-                      onPressed: play,
-                    );
-                  case ButtonState.playing:
-                    return IconButton(
-                      icon: const Icon(Icons.pause),
-                      iconSize: 32.0,
-                      onPressed: pause,
-                    );
-                }
-              },
-            ),
-            // Container(
-            //   padding: EdgeInsets.only(top: 10),
-            //   child: Wrap(
-            //     spacing: 10,
-            //     children: [
-            //       ElevatedButton.icon(
-            //         onPressed: playMusic,
-            //         icon: Icon(Icons.play_arrow),
-            //         label: Text(getTranslated(context, 'playbtn')),
-            //         style: ElevatedButton.styleFrom(
-            //             primary: Color.fromARGB(255, 6, 20, 97)),
-            //       ),
-            //       ElevatedButton.icon(
-            //         onPressed: pauseMusic,
-            //         icon: Icon(Icons.stop),
-            //         label: Text(getTranslated(context, 'stopbtn')),
-            //         style: ElevatedButton.styleFrom(
-            //             primary: Color.fromARGB(255, 6, 20, 97)),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              height: 600,
-              child: ListView.builder(
-                  itemCount: wirds.length,
-                  itemBuilder: (context, index) {
-                    final single_wird = wirds[index];
-                    String wird_translate = "wird_id_" +
-                        single_wird.wird_cat_id +
-                        "_" +
-                        single_wird.wird_sub_cat_id +
-                        "_" +
-                        single_wird.wird_id;
-                    String wird_count = getTranslated(context, 'wird') +
-                        '  ' +
-                        getTranslated(context, single_wird.wird_id);
-                    String Repetition = getTranslated(context, 'repetition') +
-                        '  ' +
-                        getTranslated(context, single_wird.repetition);
-                    return WirdCards(single_wird, wird_translate, Repetition,
-                        wird_count, context);
-                  }),
-            )
+            Flexible(
+                flex: 1,
+                child: Container(
+                  padding:
+                      EdgeInsets.only(top: 10, left: 80, right: 80, bottom: 0),
+                  child: ValueListenableBuilder<ProgressBarState>(
+                    valueListenable: progressNotifier,
+                    builder: (_, value, __) {
+                      return ProgressBar(
+                        progress: value.current,
+                        buffered: value.buffered,
+                        total: value.total,
+                        onSeek: seek,
+                        baseBarColor: Color.fromARGB(255, 169, 170, 179),
+                        progressBarColor: Color.fromARGB(255, 6, 20, 97),
+                        thumbColor: Color.fromARGB(255, 6, 20, 97),
+                      );
+                    },
+                  ),
+                )),
+            Flexible(
+                flex: 2,
+                child: Container(
+                  padding:
+                      EdgeInsets.only(top: 0, left: 15, right: 15, bottom: 20),
+                  child: ValueListenableBuilder<ButtonState>(
+                    valueListenable: buttonNotifier,
+                    builder: (_, value, __) {
+                      switch (value) {
+                        case ButtonState.loading:
+                          return Container(
+                            margin: const EdgeInsets.all(8.0),
+                            width: 20.0,
+                            height: 20.0,
+                            child: const CircularProgressIndicator(
+                              color: Color.fromARGB(255, 6, 20, 97),
+                            ),
+                          );
+                        case ButtonState.paused:
+                          return IconButton(
+                            icon: const Icon(Icons.play_arrow),
+                            padding: EdgeInsets.all(2),
+                            iconSize: 32.0,
+                            onPressed: play,
+                          );
+                        case ButtonState.playing:
+                          return IconButton(
+                            icon: const Icon(Icons.pause),
+                            padding: EdgeInsets.all(2),
+                            iconSize: 32.0,
+                            onPressed: pause,
+                          );
+                      }
+                    },
+                  ),
+                )),
+            Flexible(
+                flex: 16,
+                child: Container(
+                  child: ListView.builder(
+                      itemCount: wirds.length,
+                      itemBuilder: (context, index) {
+                        final single_wird = wirds[index];
+                        String wird_translate = "wird_id_" +
+                            single_wird.wird_cat_id +
+                            "_" +
+                            single_wird.wird_sub_cat_id +
+                            "_" +
+                            single_wird.wird_id;
+                        String wird_count = getTranslated(context, 'wird') +
+                            '  ' +
+                            getTranslated(context, single_wird.wird_id);
+                        String Repetition =
+                            getTranslated(context, 'repetition') +
+                                '  ' +
+                                getTranslated(context, single_wird.repetition);
+                        return WirdCards(single_wird, wird_translate,
+                            Repetition, wird_count, context);
+                      }),
+                )),
           ],
         ),
       ),
@@ -223,35 +220,38 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   @override
   Widget WirdCards(
           Wird single_wird, wird_translate, Repetition, wird_count, context) =>
-      Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: Card(
-          color: Colors.white,
-          child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-                  title: Text(
-                    wird_count + '\n\n' + Repetition + '\n\n',
-                    // getTranslated(context, "wird_" + single_wird.wird_id),
 
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: Provider.of<FontSizeController>(context,
-                                listen: true)
-                            .value,
-                        color: Color.fromARGB(255, 6, 20, 97),
-                        fontWeight: FontWeight.w400),
-                  ),
-                  subtitle: Text(
-                    getTranslated(context, wird_translate),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: Provider.of<FontSizeController>(context,
-                                listen: true)
+      // width: MediaQuery.of(context).size.width * 0.8,
+      Card(
+        color: Colors.white,
+        elevation: 10,
+        child: Padding(
+            padding:
+                const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+            child: ListTile(
+              contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+              title: Text(
+                getTranslated(context, wird_translate),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize:
+                        Provider.of<FontSizeController>(context, listen: true)
                             .value),
-                  ))),
-        ),
+              ),
+              subtitle: Text(
+                '\n' + Repetition,
+                // wird_count + '\n\n' + Repetition + '\n\n',
+                // getTranslated(context, "wird_" + single_wird.wird_id),
+
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize:
+                        Provider.of<FontSizeController>(context, listen: true)
+                            .value,
+                    color: Color.fromARGB(255, 6, 20, 97),
+                    fontWeight: FontWeight.w400),
+              ),
+            )),
       );
 }
 

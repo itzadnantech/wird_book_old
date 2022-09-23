@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wird_book/config/fontSize.dart' as GlobalsFont;
+import 'package:wird_book/localization/language_constants.dart';
+import 'package:wird_book/classes/language.dart';
 
 class SettingPage extends StatefulWidget {
   SettingPage({Key key}) : super(key: key);
@@ -9,31 +12,13 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  double fontSize = 20;
-  double _currentSliderValue = 14;
-  void changeFontSize() async {
-    setState(() {
-      if (fontSize == 40) {
-        fontSize = 40;
-      } else {
-        fontSize += 2;
-      }
-    });
-  }
-
-  void decreaseFontSize() async {
-    setState(() {
-      fontSize -= 2;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 6, 20, 97),
         centerTitle: true,
-        title: Text("Setting"),
+        title: Text(getTranslated(context, 'SettingPage')),
       ),
       body: Padding(
           padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
@@ -55,7 +40,7 @@ class _SettingPageState extends State<SettingPage> {
               child: ListTile(
                 contentPadding: EdgeInsets.symmetric(vertical: 1.0),
                 title: Text(
-                  'Manage Font Size',
+                  getTranslated(context, 'FontSize'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize:
@@ -66,41 +51,78 @@ class _SettingPageState extends State<SettingPage> {
                 ),
               ),
             ),
-            // buildSlider(context),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  Provider.of<FontSizeController>(context, listen: false)
-                      .decrement();
-                },
-                child: Icon(Icons.remove),
-                style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(5),
-                    backgroundColor: Color.fromARGB(255, 6, 20, 97)),
-              ),
-              SizedBox(width: 0),
-              buildSlider(context),
-              SizedBox(width: 0),
-              ElevatedButton(
-                onPressed: () {
-                  Provider.of<FontSizeController>(context, listen: false)
-                      .increment();
-                },
-                child: Icon(Icons.add),
-                style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(5),
-                    backgroundColor: Color.fromARGB(255, 6, 20, 97)),
-              ),
+              Flexible(
+                  flex: 2,
+                  child: ElevatedButton(
+                    // onPressed: () {},
+                    onPressed: () {
+                      Provider.of<FontSizeController>(context, listen: false)
+                          .decrement();
+                    },
+                    child: Icon(
+                      Icons.remove,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        shape: CircleBorder(),
+                        padding: EdgeInsets.all(5),
+                        backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+                  )),
+              Flexible(flex: 12, child: buildSlider(context)),
+              Flexible(
+                flex: 2,
+                child: ElevatedButton(
+                  // onPressed: () {},
+                  onPressed: () {
+                    Provider.of<FontSizeController>(context, listen: false)
+                        .increment();
+                  },
+                  child: Icon(
+                    Icons.add,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(5),
+                      backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+                ),
+              )
             ]),
-            Divider()
+            Divider(),
+            Container(
+              margin: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(.9),
+                    blurRadius: 2.0, // soften the shadow
+                    spreadRadius: 2.0, //extend the shadow
+                  )
+                ],
+              ),
+              child: ListTile(
+                contentPadding: EdgeInsets.symmetric(vertical: 1.0),
+                title: Text(
+                  getTranslated(context, 'LanguageSetting'),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize:
+                          Provider.of<FontSizeController>(context, listen: true)
+                              .value,
+                      color: Color.fromARGB(255, 6, 20, 97),
+                      fontWeight: FontWeight.w400),
+                ),
+              ),
+            ),
           ])),
     );
   }
 
   @override
   Widget buildSlider(BuildContext context) {
+    double _currentSliderValue =
+        Provider.of<FontSizeController>(context, listen: true).value;
     return Slider(
       value: Provider.of<FontSizeController>(context, listen: true).value,
       activeColor: Color.fromARGB(255, 6, 20, 97),
@@ -112,11 +134,11 @@ class _SettingPageState extends State<SettingPage> {
           .round()
           .toString(),
       onChanged: (double value) {
-        // if (value < _currentSliderValue) {
-        //   Provider.of<FontSizeController>(context, listen: false).decrement();
-        // } else {
-        //   Provider.of<FontSizeController>(context, listen: false).increment();
-        // }
+        if (value < _currentSliderValue) {
+          Provider.of<FontSizeController>(context, listen: false).decrement();
+        } else {
+          Provider.of<FontSizeController>(context, listen: false).increment();
+        }
         setState(() {
           _currentSliderValue = value;
           print(_currentSliderValue);
@@ -127,10 +149,8 @@ class _SettingPageState extends State<SettingPage> {
 }
 
 class FontSizeController with ChangeNotifier {
-  double _value = 14.0;
-
+  double _value = GlobalsFont.fontSize;
   double get value => _value;
-
   void increment() {
     // _value++;
     _value = _value + 2;
