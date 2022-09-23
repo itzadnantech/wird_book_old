@@ -246,6 +246,10 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                   subtitle: Text(
                     getTranslated(context, wird_translate),
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: Provider.of<FontSizeController>(context,
+                                listen: true)
+                            .value),
                   ))),
         ),
       );

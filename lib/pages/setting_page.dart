@@ -10,9 +10,14 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   double fontSize = 20;
+  double _currentSliderValue = 14;
   void changeFontSize() async {
     setState(() {
-      fontSize += 2;
+      if (fontSize == 40) {
+        fontSize = 40;
+      } else {
+        fontSize += 2;
+      }
     });
   }
 
@@ -30,54 +35,117 @@ class _SettingPageState extends State<SettingPage> {
         centerTitle: true,
         title: Text("Setting"),
       ),
-      body: Center(
+      body: Padding(
+          padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
           child: Column(children: <Widget>[
-        Divider(),
-        Text(
-          'Test Font Size',
-          style: TextStyle(
-              fontSize:
-                  Provider.of<FontSizeController>(context, listen: true).value),
-        ),
-        Divider(),
-        ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStatePropertyAll<Color>(Color.fromARGB(255, 6, 20, 97)),
-          ),
-          onPressed: () {
-            Provider.of<FontSizeController>(context, listen: false).increment();
-          },
-          child: Text('Increase Font'),
-        ),
-        Divider(),
-        ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStatePropertyAll<Color>(Color.fromARGB(255, 6, 20, 97)),
-          ),
-          onPressed: () {
-            Provider.of<FontSizeController>(context, listen: false).decrement();
-          },
-          child: Text('Decrease Font'),
-        ),
-      ])),
+            Divider(),
+            Container(
+              margin: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(.9),
+                    blurRadius: 2.0, // soften the shadow
+                    spreadRadius: 2.0, //extend the shadow
+                  )
+                ],
+              ),
+              child: ListTile(
+                contentPadding: EdgeInsets.symmetric(vertical: 1.0),
+                title: Text(
+                  'Manage Font Size',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize:
+                          Provider.of<FontSizeController>(context, listen: true)
+                              .value,
+                      color: Color.fromARGB(255, 6, 20, 97),
+                      fontWeight: FontWeight.w400),
+                ),
+              ),
+            ),
+            // buildSlider(context),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  Provider.of<FontSizeController>(context, listen: false)
+                      .decrement();
+                },
+                child: Icon(Icons.remove),
+                style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(5),
+                    backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+              ),
+              SizedBox(width: 0),
+              buildSlider(context),
+              SizedBox(width: 0),
+              ElevatedButton(
+                onPressed: () {
+                  Provider.of<FontSizeController>(context, listen: false)
+                      .increment();
+                },
+                child: Icon(Icons.add),
+                style: ElevatedButton.styleFrom(
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(5),
+                    backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+              ),
+            ]),
+            Divider()
+          ])),
+    );
+  }
+
+  @override
+  Widget buildSlider(BuildContext context) {
+    return Slider(
+      value: Provider.of<FontSizeController>(context, listen: true).value,
+      activeColor: Color.fromARGB(255, 6, 20, 97),
+      max: 30,
+      min: 14,
+      divisions: 8,
+      label: Provider.of<FontSizeController>(context, listen: true)
+          .value
+          .round()
+          .toString(),
+      onChanged: (double value) {
+        // if (value < _currentSliderValue) {
+        //   Provider.of<FontSizeController>(context, listen: false).decrement();
+        // } else {
+        //   Provider.of<FontSizeController>(context, listen: false).increment();
+        // }
+        setState(() {
+          _currentSliderValue = value;
+          print(_currentSliderValue);
+        });
+      },
     );
   }
 }
 
 class FontSizeController with ChangeNotifier {
-  double _value = 15.0;
+  double _value = 14.0;
 
   double get value => _value;
 
   void increment() {
-    _value++;
+    // _value++;
+    _value = _value + 2;
+    if (_value > 30) {
+      _value = 30;
+    }
     notifyListeners();
   }
 
   void decrement() {
-    _value--;
+    // _value--;
+    _value = _value - 2;
+    if (_value < 14) {
+      _value = 14;
+    }
     notifyListeners();
   }
 }
