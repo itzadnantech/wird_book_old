@@ -10,6 +10,8 @@ import 'package:wird_book/model/wird.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:wird_book/pages/setting_page.dart';
 import 'package:provider/provider.dart';
+import 'package:wird_book/config/fontSize.dart' as GlobalFont;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AllWirdsPage extends StatefulWidget {
   final String wird_cat_id;
@@ -36,16 +38,30 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   final buttonNotifier = ValueNotifier<ButtonState>(ButtonState.paused);
 
   AudioPlayer _audioPlayer;
+  double _value = GlobalFont.fontSize_min;
 
   @override
   void initState() {
     super.initState();
+    fontSize();
     _init();
     wirds = all_wirds
         .where((medium) =>
             medium.wird_sub_cat_id == widget.wird_sub_cat_id &&
             medium.wird_cat_id == widget.wird_cat_id)
         .toList();
+  }
+
+  void init_fontSize() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+    });
+  }
+
+  double fontSize() {
+    init_fontSize();
+    return _value;
   }
 
   void _init() async {
@@ -233,10 +249,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
               title: Text(
                 getTranslated(context, wird_translate),
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize:
-                        Provider.of<FontSizeController>(context, listen: true)
-                            .value),
+                style: TextStyle(fontSize: fontSize()),
               ),
               subtitle: Text(
                 '\n' + Repetition,
@@ -245,9 +258,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
 
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize:
-                        Provider.of<FontSizeController>(context, listen: true)
-                            .value,
+                    fontSize: fontSize(),
                     color: Color.fromARGB(255, 6, 20, 97),
                     fontWeight: FontWeight.w400),
               ),
