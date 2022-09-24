@@ -29,8 +29,10 @@ dependencies:
   cupertino_icons: ^0.1.2
   just_audio: ^0.9.28
   audio_video_progress_bar: ^0.9.0
+  provider: ^6.0.3
 
 dev_dependencies:
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
 

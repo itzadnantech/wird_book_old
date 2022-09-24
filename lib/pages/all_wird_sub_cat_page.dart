@@ -6,6 +6,10 @@ import 'package:wird_book/pages/athkars_page.dart';
 import 'package:wird_book/pages/all_wirds_page.dart';
 import 'package:wird_book/data/all_wird_sub_cats.dart';
 import 'package:wird_book/model/wird_sub_category.dart';
+import 'package:wird_book/pages/setting_page.dart';
+import 'package:provider/provider.dart';
+import 'package:wird_book/config/fontSize.dart' as GlobalFont;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AllWirdSubCatPage extends StatefulWidget {
   final String wird_cat_id;
@@ -19,12 +23,27 @@ class AllWirdSubCatPage extends StatefulWidget {
 class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
   List<Wird_Sub_Category> subwirds;
 
+  double _value = GlobalFont.fontSize_min;
+
   @override
   void initState() {
     super.initState();
+    fontSize();
     subwirds = all_wird_sub_cats
         .where((medium) => medium.wird_cat_id == widget.wird_cat_id)
         .toList();
+  }
+
+  void init() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+    });
+  }
+
+  double fontSize() {
+    init();
+    return _value;
   }
 
   @override
@@ -82,7 +101,7 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
             getTranslated(context, sub_wird_title),
             // list.wird_sub_cat_title,
             style: TextStyle(
-                fontSize: 15,
+                fontSize: fontSize(),
                 color: Color.fromARGB(255, 6, 20, 97),
                 fontWeight: FontWeight.w400),
           ),
