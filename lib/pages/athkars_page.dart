@@ -9,6 +9,8 @@ import 'package:wird_book/data/all_wird_cats.dart';
 import 'package:wird_book/model/wird_category.dart';
 import 'package:wird_book/pages/setting_page.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wird_book/config/fontSize.dart' as GlobalFont;
 
 class AthkarsPage extends StatefulWidget {
   const AthkarsPage({Key key}) : super(key: key);
@@ -24,17 +26,27 @@ class _AthkarsPageState extends State<AthkarsPage> {
     MyApp.setLocale(context, _locale);
   }
 
-  void _showSuccessDialog() {
-    showTimePicker(context: context, initialTime: TimeOfDay.now());
-  }
-
   List<Wird_Category> list_wird_category;
   String query = '';
+  double _value = GlobalFont.fontSize_min;
 
   @override
   void initState() {
     super.initState();
+    fontSize();
     list_wird_category = all_wird_cats;
+  }
+
+  void init() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+    });
+  }
+
+  double fontSize() {
+    init();
+    return _value;
   }
 
   @override
@@ -68,11 +80,7 @@ class _AthkarsPageState extends State<AthkarsPage> {
                         children: <Widget>[
                           Text(
                             e.name,
-                            style: TextStyle(
-                                fontSize: Provider.of<FontSizeController>(
-                                        context,
-                                        listen: true)
-                                    .value),
+                            style: TextStyle(fontSize: fontSize()),
                           )
                         ],
                       ),
@@ -88,9 +96,6 @@ class _AthkarsPageState extends State<AthkarsPage> {
               }),
         ],
       ),
-      // drawer: Drawer(
-      //   child: _drawerList(),
-      // ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -156,8 +161,9 @@ class _AthkarsPageState extends State<AthkarsPage> {
             getTranslated(
                 context, 'wird_cat_id_' + single_wird_category.wird_cat_id),
             style: TextStyle(
-                fontSize: Provider.of<FontSizeController>(context, listen: true)
-                    .value,
+                // fontSize: Provider.of<FontSizeController>(context, listen: true)
+                //     .value,
+                fontSize: fontSize(),
                 color: Color.fromARGB(255, 6, 20, 97),
                 fontWeight: FontWeight.w400),
           ),
