@@ -21,10 +21,6 @@ class AthkarsPage extends StatefulWidget {
 
 class _AthkarsPageState extends State<AthkarsPage> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  void _changeLanguage(Language language) async {
-    Locale _locale = await setLocale(language.languageCode);
-    MyApp.setLocale(context, _locale);
-  }
 
   List<Wird_Category> list_wird_category;
   String query = '';
@@ -57,38 +53,6 @@ class _AthkarsPageState extends State<AthkarsPage> {
         centerTitle: true,
         title: Text(getTranslated(context, 'homePage')),
         actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: DropdownButton<Language>(
-              underline: const SizedBox(),
-              icon: const Icon(
-                Icons.language_sharp,
-                color: Colors.white,
-              ),
-              onChanged: (Language language) async {
-                if (language != null) {
-                  Locale _locale = await setLocale(language.languageCode);
-                  MyApp.setLocale(context, _locale);
-                }
-              },
-              items: Language.languageList()
-                  .map<DropdownMenuItem<Language>>(
-                    (e) => DropdownMenuItem<Language>(
-                      value: e,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Text(
-                            e.name,
-                            style: TextStyle(fontSize: fontSize()),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
           IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {

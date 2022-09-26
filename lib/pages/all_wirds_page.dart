@@ -249,7 +249,8 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
               title: Text(
                 getTranslated(context, wird_translate),
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: fontSize()),
+                style: TextStyle(
+                    fontSize: fontSize(), fontWeight: FontWeight.w600),
               ),
               subtitle: Text(
                 '\n' + Repetition,

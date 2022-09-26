@@ -3,6 +3,7 @@
 ## Todo List For This Version
 
 - Add language setting to setting page
+- Update Font weight and size of Wirds
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,

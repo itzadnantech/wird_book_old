@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wird_book/main.dart';
 import 'package:wird_book/config/fontSize.dart' as GlobalFont;
 import 'package:wird_book/localization/language_constants.dart';
 import 'package:wird_book/classes/language.dart';
@@ -15,6 +16,13 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   double _value = GlobalFont.fontSize_min;
+
+  String selected_lng = '';
+
+  // void _changeLanguage(Language language) async {
+  //   Locale _locale = await setLocale(language.languageCode);
+  //   MyApp.setLocale(context, _locale);
+  // }
 
   @override
   void initState() {
@@ -109,7 +117,7 @@ class _SettingPageState extends State<SettingPage> {
             ]),
             Divider(),
             Container(
-              margin: EdgeInsets.all(8),
+              margin: EdgeInsets.only(top: 8, bottom: 20, left: 8, right: 8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Colors.white,
@@ -133,6 +141,7 @@ class _SettingPageState extends State<SettingPage> {
                 ),
               ),
             ),
+            Language_Card(context),
           ])),
     );
   }
@@ -158,6 +167,49 @@ class _SettingPageState extends State<SettingPage> {
         });
       },
     );
+  }
+
+  @override
+  // Language Card Section
+  Widget Language_Card(BuildContext context) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Flexible(
+          flex: 2,
+          child: ElevatedButton(
+            onPressed: () async {
+              selected_lng = 'ar';
+              Locale _locale = await setLocale('en');
+              MyApp.setLocale(context, _locale);
+            },
+            child: Text('English'),
+            style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32.0),
+                ),
+                padding:
+                    EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),
+                backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+          )),
+      SizedBox(width: 30),
+      Flexible(
+        flex: 2,
+        child: ElevatedButton(
+          onPressed: () async {
+            selected_lng = 'ar';
+            Locale _locale = await setLocale('ar');
+            MyApp.setLocale(context, _locale);
+          },
+          child: Text('العربية'),
+          style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(32.0),
+              ),
+              padding:
+                  EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),
+              backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+        ),
+      ),
+    ]);
   }
 }
 
