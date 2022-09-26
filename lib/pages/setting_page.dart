@@ -212,13 +212,12 @@ class _SettingPageState extends State<SettingPage> {
             Locale _locale = await setLocale('ar');
             MyApp.setLocale(context, _locale);
           },
-          child: Text('العربية'),
+          child: Text('العربية'.trim()),
           style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32.0),
+                  borderRadius: BorderRadius.circular(20.0),
                   side: BorderSide(color: Color.fromARGB(255, 6, 20, 97))),
-              padding:
-                  EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),
+              padding: EdgeInsets.only(top: 5, bottom: 5, right: 15, left: 15),
               backgroundColor: selected_lng == 'ar'
                   ? Color.fromARGB(255, 6, 20, 97)
                   : Colors.white,
