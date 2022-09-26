@@ -129,7 +129,7 @@ class _AthkarsPageState extends State<AthkarsPage> {
                 //     .value,
                 fontSize: fontSize(),
                 color: Color.fromARGB(255, 6, 20, 97),
-                fontWeight: FontWeight.w400),
+                fontWeight: FontWeight.w600),
           ),
           // leading: test(single_wird_category.wird_cat_id, context),
           trailing: const Icon(

@@ -76,8 +76,8 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
 
   Widget buildBook(Wird_Sub_Category list, sub_wird_title, context) =>
       Container(
-        margin: EdgeInsets.all(10),
-        // margin: const EdgeInsets.only(top: 20.0),
+        // margin: EdgeInsets.all(15),
+        margin: const EdgeInsets.only(top: 8, left: 15, right: 15, bottom: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
@@ -91,7 +91,7 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
         ),
         child: ListTile(
           contentPadding:
-              EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 0),
+              EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
           trailing: Icon(
             Icons.star_sharp,
             color: Color.fromARGB(255, 6, 20, 97),
@@ -103,7 +103,7 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
             style: TextStyle(
                 fontSize: fontSize(),
                 color: Color.fromARGB(255, 6, 20, 97),
-                fontWeight: FontWeight.w400),
+                fontWeight: FontWeight.w600),
           ),
           onTap: () {
             Navigator.push(

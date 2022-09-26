@@ -261,7 +261,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                 style: TextStyle(
                     fontSize: fontSize(),
                     color: Color.fromARGB(255, 6, 20, 97),
-                    fontWeight: FontWeight.w400),
+                    fontWeight: FontWeight.w500),
               ),
             )),
       );

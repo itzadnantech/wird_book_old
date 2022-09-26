@@ -17,7 +17,7 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   double _value = GlobalFont.fontSize_min;
 
-  String selected_lng = '';
+  String selected_lng;
 
   // void _changeLanguage(Language language) async {
   //   Locale _locale = await setLocale(language.languageCode);
@@ -28,6 +28,14 @@ class _SettingPageState extends State<SettingPage> {
   void initState() {
     super.initState();
     fontSize();
+    getLanguage();
+  }
+
+  void getLanguage() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selected_lng = _prefs.getString(LAGUAGE_CODE) ?? "ar";
+    });
   }
 
   void init() async {
@@ -152,9 +160,9 @@ class _SettingPageState extends State<SettingPage> {
     return Slider(
       value: fontSize(),
       activeColor: Color.fromARGB(255, 6, 20, 97),
-      max: 30,
-      min: 14,
-      divisions: 8,
+      max: GlobalFont.fontSize_max,
+      min: GlobalFont.fontSize_min,
+      divisions: GlobalFont.fontSize_devisions,
       label: fontSize().round().toString(),
       onChanged: (double value) {
         if (value < _currentSliderValue) {
@@ -177,18 +185,23 @@ class _SettingPageState extends State<SettingPage> {
           flex: 2,
           child: ElevatedButton(
             onPressed: () async {
-              selected_lng = 'ar';
+              selected_lng = 'en';
               Locale _locale = await setLocale('en');
               MyApp.setLocale(context, _locale);
             },
             child: Text('English'),
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32.0),
-                ),
+                    borderRadius: BorderRadius.circular(32.0),
+                    side: BorderSide(color: Color.fromARGB(255, 6, 20, 97))),
                 padding:
                     EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),
-                backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+                backgroundColor: selected_lng == 'en'
+                    ? Color.fromARGB(255, 6, 20, 97)
+                    : Colors.white,
+                foregroundColor: selected_lng == 'en'
+                    ? Colors.white
+                    : Color.fromARGB(255, 6, 20, 97)),
           )),
       SizedBox(width: 30),
       Flexible(
@@ -202,11 +215,16 @@ class _SettingPageState extends State<SettingPage> {
           child: Text('العربية'),
           style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(32.0),
-              ),
+                  borderRadius: BorderRadius.circular(32.0),
+                  side: BorderSide(color: Color.fromARGB(255, 6, 20, 97))),
               padding:
                   EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),
-              backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+              backgroundColor: selected_lng == 'ar'
+                  ? Color.fromARGB(255, 6, 20, 97)
+                  : Colors.white,
+              foregroundColor: selected_lng == 'ar'
+                  ? Colors.white
+                  : Color.fromARGB(255, 6, 20, 97)),
         ),
       ),
     ]);
