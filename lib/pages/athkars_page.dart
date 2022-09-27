@@ -25,15 +25,16 @@ class _AthkarsPageState extends State<AthkarsPage> {
   List<Wird_Category> list_wird_category;
   String query = '';
   double _value = GlobalFont.fontSize_min;
-  double _prevScale = 1.0;
-  double _scale = 1.0;
+  double _prevScale = GlobalFont.prevScale;
+  double _scale = GlobalFont.scale;
 
   @override
   void initState() {
     super.initState();
     fontSize();
     list_wird_category = all_wird_cats;
-    _prevScale = _scale = 1.0;
+    _scale = GlobalFont.scale;
+    _prevScale = GlobalFont.prevScale;
   }
 
   void init() async {
@@ -41,6 +42,15 @@ class _AthkarsPageState extends State<AthkarsPage> {
     setState(() {
       _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
       _value = _value * _scale;
+
+      if (_value > GlobalFont.fontSize_max) {
+        _value = GlobalFont.fontSize_max;
+      }
+
+      if (_value < GlobalFont.fontSize_min) {
+        _value = GlobalFont.fontSize_min;
+      }
+      prefs.setDouble('value', _value);
     });
   }
 

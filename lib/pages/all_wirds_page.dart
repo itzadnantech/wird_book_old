@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:wird_book/classes/language.dart';
@@ -39,14 +41,15 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
 
   AudioPlayer _audioPlayer;
   double _value = GlobalFont.fontSize_min;
-  double _prevScale = 1.0;
-  double _scale = 1.0;
+  double _prevScale = GlobalFont.prevScale;
+  double _scale = GlobalFont.scale;
 
   @override
   void initState() {
     super.initState();
     fontSize();
-    _prevScale = _scale = 1.0;
+    _scale = GlobalFont.scale;
+    _prevScale = GlobalFont.prevScale;
     _init();
     wirds = all_wirds
         .where((medium) =>
@@ -60,6 +63,15 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
     setState(() {
       _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
       _value = _value * _scale;
+      if (_value > GlobalFont.fontSize_max) {
+        _value = GlobalFont.fontSize_max;
+      }
+
+      if (_value < GlobalFont.fontSize_min) {
+        _value = GlobalFont.fontSize_min;
+      }
+
+      prefs.setDouble('value', _value);
     });
   }
 

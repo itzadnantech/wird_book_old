@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:js_util';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wird_book/main.dart';
@@ -16,15 +17,16 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   double _value = GlobalFont.fontSize_min;
-  double _prevScale = 1.0;
-  double _scale = 1.0;
+  double _prevScale = GlobalFont.prevScale;
+  double _scale = GlobalFont.scale;
   String selected_lng;
 
   @override
   void initState() {
     super.initState();
     fontSize();
-    _prevScale = _scale = 1.0;
+    _scale = GlobalFont.scale;
+    _prevScale = GlobalFont.prevScale;
     getLanguage();
   }
 
@@ -40,6 +42,15 @@ class _SettingPageState extends State<SettingPage> {
     setState(() {
       _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
       _value = _value * _scale;
+      if (_value > GlobalFont.fontSize_max) {
+        _value = GlobalFont.fontSize_max;
+      }
+
+      if (_value < GlobalFont.fontSize_min) {
+        _value = GlobalFont.fontSize_min;
+      }
+
+      prefs.setDouble('value', _value);
     });
   }
 
@@ -259,7 +270,7 @@ class FontSizeController with ChangeNotifier {
   double get value => fontSize();
   void increment() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) + 2);
+    _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) + 0.05);
     if (_value > GlobalFont.fontSize_max) {
       _value = GlobalFont.fontSize_min;
     }
@@ -269,7 +280,7 @@ class FontSizeController with ChangeNotifier {
 
   void decrement() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) - 2);
+    _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) - 0.05);
     if (_value < GlobalFont.fontSize_min) {
       _value = GlobalFont.fontSize_min;
     }
