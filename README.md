@@ -1,9 +1,8 @@
 # wird_book
 
-## Todo List For This Version
+## Todo List For This Version 3.2
 
-- Add language setting to setting page
-- Update Font weight and size of all Lists
+- Adjust font size using fingers on the screen
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
