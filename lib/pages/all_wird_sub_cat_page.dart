@@ -24,11 +24,14 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
   List<Wird_Sub_Category> subwirds;
 
   double _value = GlobalFont.fontSize_min;
+  double _prevScale = 1.0;
+  double _scale = 1.0;
 
   @override
   void initState() {
     super.initState();
     fontSize();
+    _prevScale = _scale = 1.0;
     subwirds = all_wird_sub_cats
         .where((medium) => medium.wird_cat_id == widget.wird_cat_id)
         .toList();
@@ -47,7 +50,19 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onScaleUpdate: (ScaleUpdateDetails details) {
+        setState(() {
+          _scale = (_prevScale * (details.scale));
+        });
+      },
+      onScaleEnd: (ScaleEndDetails details) {
+        setState(() {
+          _prevScale = _scale;
+        });
+      },
+      child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 6, 20, 97),
           centerTitle: true,
@@ -72,7 +87,9 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
             ),
           ],
         ),
-      );
+      ),
+    );
+  }
 
   Widget buildBook(Wird_Sub_Category list, sub_wird_title, context) =>
       Container(
@@ -101,7 +118,7 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
             getTranslated(context, sub_wird_title),
             // list.wird_sub_cat_title,
             style: TextStyle(
-                fontSize: fontSize(),
+                fontSize: fontSize() * _scale,
                 color: Color.fromARGB(255, 6, 20, 97),
                 fontWeight: FontWeight.w600),
           ),

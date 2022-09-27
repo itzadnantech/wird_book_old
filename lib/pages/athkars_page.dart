@@ -25,12 +25,15 @@ class _AthkarsPageState extends State<AthkarsPage> {
   List<Wird_Category> list_wird_category;
   String query = '';
   double _value = GlobalFont.fontSize_min;
+  double _prevScale = 1.0;
+  double _scale = 1.0;
 
   @override
   void initState() {
     super.initState();
     fontSize();
     list_wird_category = all_wird_cats;
+    _prevScale = _scale = 1.0;
   }
 
   void init() async {
@@ -47,52 +50,64 @@ class _AthkarsPageState extends State<AthkarsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 6, 20, 97),
-        centerTitle: true,
-        title: Text(getTranslated(context, 'homePage')),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                _navigateToSettingPage(context);
-              }),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            TextField(
-              onChanged: searchWirdCategory,
-              decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
-                hintText: getTranslated(context, 'search'),
-                suffixIcon: const Icon(Icons.search),
-                // prefix: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 6, 20, 97), width: 4.0),
+    return GestureDetector(
+      onScaleUpdate: (ScaleUpdateDetails details) {
+        setState(() {
+          _scale = (_prevScale * (details.scale));
+        });
+      },
+      onScaleEnd: (ScaleEndDetails details) {
+        setState(() {
+          _prevScale = _scale;
+        });
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 6, 20, 97),
+          centerTitle: true,
+          title: Text(getTranslated(context, 'homePage')),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  _navigateToSettingPage(context);
+                }),
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              TextField(
+                onChanged: searchWirdCategory,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 15),
+                  hintText: getTranslated(context, 'search'),
+                  suffixIcon: const Icon(Icons.search),
+                  // prefix: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 6, 20, 97), width: 4.0),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: list_wird_category.length,
-                // scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  final single_wird_category = list_wird_category[index];
-                  return buildWirdCategoryList(single_wird_category, context);
-                },
+              const SizedBox(
+                height: 20,
               ),
-            ),
-          ],
+              Expanded(
+                child: ListView.builder(
+                  itemCount: list_wird_category.length,
+                  // scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final single_wird_category = list_wird_category[index];
+                    return buildWirdCategoryList(single_wird_category, context);
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -127,7 +142,7 @@ class _AthkarsPageState extends State<AthkarsPage> {
             style: TextStyle(
                 // fontSize: Provider.of<FontSizeController>(context, listen: true)
                 //     .value,
-                fontSize: fontSize(),
+                fontSize: fontSize() * _scale,
                 color: Color.fromARGB(255, 6, 20, 97),
                 fontWeight: FontWeight.w600),
           ),

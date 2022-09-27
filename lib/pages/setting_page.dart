@@ -16,18 +16,15 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   double _value = GlobalFont.fontSize_min;
-
+  double _prevScale = 1.0;
+  double _scale = 1.0;
   String selected_lng;
-
-  // void _changeLanguage(Language language) async {
-  //   Locale _locale = await setLocale(language.languageCode);
-  //   MyApp.setLocale(context, _locale);
-  // }
 
   @override
   void initState() {
     super.initState();
     fontSize();
+    _prevScale = _scale = 1.0;
     getLanguage();
   }
 
@@ -51,106 +48,120 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 6, 20, 97),
-        centerTitle: true,
-        title: Text(getTranslated(context, 'SettingPage')),
-      ),
-      body: Padding(
-          padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
-          child: Column(children: <Widget>[
-            Divider(),
-            Container(
-              margin: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(.9),
-                    blurRadius: 2.0, // soften the shadow
-                    spreadRadius: 2.0, //extend the shadow
-                  )
-                ],
-              ),
-              child: ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 1.0),
-                title: Text(
-                  getTranslated(context, 'FontSize'),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: fontSize(),
-                      color: Color.fromARGB(255, 6, 20, 97),
-                      fontWeight: FontWeight.w400),
+    return GestureDetector(
+      onScaleUpdate: (ScaleUpdateDetails details) {
+        setState(() {
+          _scale = (_prevScale * (details.scale));
+        });
+      },
+      onScaleEnd: (ScaleEndDetails details) {
+        setState(() {
+          _prevScale = _scale;
+        });
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 6, 20, 97),
+          centerTitle: true,
+          title: Text(getTranslated(context, 'SettingPage')),
+        ),
+        body: Padding(
+            padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
+            child: Column(children: <Widget>[
+              Divider(),
+              Container(
+                margin: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(.9),
+                      blurRadius: 2.0, // soften the shadow
+                      spreadRadius: 2.0, //extend the shadow
+                    )
+                  ],
+                ),
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(vertical: 1.0),
+                  title: Text(
+                    getTranslated(context, 'FontSize'),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: fontSize() * _scale,
+                        color: Color.fromARGB(255, 6, 20, 97),
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
               ),
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-              Flexible(
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: <
+                  Widget>[
+                Flexible(
+                    flex: 2,
+                    child: ElevatedButton(
+                      // onPressed: () {},
+                      onPressed: () {
+                        Provider.of<FontSizeController>(context, listen: false)
+                            .decrement();
+                      },
+                      child: Icon(
+                        Icons.remove,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(5),
+                          backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+                    )),
+                Flexible(flex: 12, child: buildSlider(context)),
+                Flexible(
                   flex: 2,
                   child: ElevatedButton(
                     // onPressed: () {},
                     onPressed: () {
                       Provider.of<FontSizeController>(context, listen: false)
-                          .decrement();
+                          .increment();
                     },
                     child: Icon(
-                      Icons.remove,
+                      Icons.add,
                     ),
                     style: ElevatedButton.styleFrom(
                         shape: CircleBorder(),
                         padding: EdgeInsets.all(5),
                         backgroundColor: Color.fromARGB(255, 6, 20, 97)),
-                  )),
-              Flexible(flex: 12, child: buildSlider(context)),
-              Flexible(
-                flex: 2,
-                child: ElevatedButton(
-                  // onPressed: () {},
-                  onPressed: () {
-                    Provider.of<FontSizeController>(context, listen: false)
-                        .increment();
-                  },
-                  child: Icon(
-                    Icons.add,
                   ),
-                  style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(5),
-                      backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+                )
+              ]),
+              Divider(),
+              Container(
+                margin: EdgeInsets.only(top: 8, bottom: 20, left: 8, right: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(.9),
+                      blurRadius: 2.0, // soften the shadow
+                      spreadRadius: 2.0, //extend the shadow
+                    )
+                  ],
                 ),
-              )
-            ]),
-            Divider(),
-            Container(
-              margin: EdgeInsets.only(top: 8, bottom: 20, left: 8, right: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(.9),
-                    blurRadius: 2.0, // soften the shadow
-                    spreadRadius: 2.0, //extend the shadow
-                  )
-                ],
-              ),
-              child: ListTile(
-                contentPadding: EdgeInsets.symmetric(vertical: 1.0),
-                title: Text(
-                  getTranslated(context, 'LanguageSetting'),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: fontSize(),
-                      color: Color.fromARGB(255, 6, 20, 97),
-                      fontWeight: FontWeight.w400),
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(vertical: 1.0),
+                  title: Text(
+                    getTranslated(context, 'LanguageSetting'),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: fontSize(),
+                        color: Color.fromARGB(255, 6, 20, 97),
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
               ),
-            ),
-            Language_Card(context),
-          ])),
+              Language_Card(context),
+            ])),
+      ),
     );
   }
 

@@ -39,11 +39,14 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
 
   AudioPlayer _audioPlayer;
   double _value = GlobalFont.fontSize_min;
+  double _prevScale = 1.0;
+  double _scale = 1.0;
 
   @override
   void initState() {
     super.initState();
     fontSize();
+    _prevScale = _scale = 1.0;
     _init();
     wirds = all_wirds
         .where((medium) =>
@@ -132,102 +135,114 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 6, 20, 97),
-        centerTitle: true,
-        title: Text(getTranslated(
-            context,
-            "wird_sub_cat_id_" +
-                widget.wird_cat_id +
-                "_" +
-                widget.wird_sub_cat_id)),
-      ),
-      body: Padding(
-        padding: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
-        child: Column(
-          children: [
-            Flexible(
-                flex: 1,
-                child: Container(
-                  padding:
-                      EdgeInsets.only(top: 10, left: 80, right: 80, bottom: 0),
-                  child: ValueListenableBuilder<ProgressBarState>(
-                    valueListenable: progressNotifier,
-                    builder: (_, value, __) {
-                      return ProgressBar(
-                        progress: value.current,
-                        buffered: value.buffered,
-                        total: value.total,
-                        onSeek: seek,
-                        baseBarColor: Color.fromARGB(255, 169, 170, 179),
-                        progressBarColor: Color.fromARGB(255, 6, 20, 97),
-                        thumbColor: Color.fromARGB(255, 6, 20, 97),
-                      );
-                    },
-                  ),
-                )),
-            Flexible(
-                flex: 2,
-                child: Container(
-                  padding:
-                      EdgeInsets.only(top: 0, left: 15, right: 15, bottom: 20),
-                  child: ValueListenableBuilder<ButtonState>(
-                    valueListenable: buttonNotifier,
-                    builder: (_, value, __) {
-                      switch (value) {
-                        case ButtonState.loading:
-                          return Container(
-                            margin: const EdgeInsets.all(8.0),
-                            width: 20.0,
-                            height: 20.0,
-                            child: const CircularProgressIndicator(
-                              color: Color.fromARGB(255, 6, 20, 97),
-                            ),
-                          );
-                        case ButtonState.paused:
-                          return IconButton(
-                            icon: const Icon(Icons.play_arrow),
-                            padding: EdgeInsets.all(2),
-                            iconSize: 32.0,
-                            onPressed: play,
-                          );
-                        case ButtonState.playing:
-                          return IconButton(
-                            icon: const Icon(Icons.pause),
-                            padding: EdgeInsets.all(2),
-                            iconSize: 32.0,
-                            onPressed: pause,
-                          );
-                      }
-                    },
-                  ),
-                )),
-            Flexible(
-                flex: 16,
-                child: Container(
-                  child: ListView.builder(
-                      itemCount: wirds.length,
-                      itemBuilder: (context, index) {
-                        final single_wird = wirds[index];
-                        String wird_translate = "wird_id_" +
-                            single_wird.wird_cat_id +
-                            "_" +
-                            single_wird.wird_sub_cat_id +
-                            "_" +
-                            single_wird.wird_id;
-                        String wird_count = getTranslated(context, 'wird') +
-                            '  ' +
-                            getTranslated(context, single_wird.wird_id);
-                        String Repetition =
-                            getTranslated(context, 'repetition') +
-                                '  ' +
-                                getTranslated(context, single_wird.repetition);
-                        return WirdCards(single_wird, wird_translate,
-                            Repetition, wird_count, context);
-                      }),
-                )),
-          ],
+    return GestureDetector(
+      onScaleUpdate: (ScaleUpdateDetails details) {
+        setState(() {
+          _scale = (_prevScale * (details.scale));
+        });
+      },
+      onScaleEnd: (ScaleEndDetails details) {
+        setState(() {
+          _prevScale = _scale;
+        });
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 6, 20, 97),
+          centerTitle: true,
+          title: Text(getTranslated(
+              context,
+              "wird_sub_cat_id_" +
+                  widget.wird_cat_id +
+                  "_" +
+                  widget.wird_sub_cat_id)),
+        ),
+        body: Padding(
+          padding: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
+          child: Column(
+            children: [
+              Flexible(
+                  flex: 1,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        top: 10, left: 80, right: 80, bottom: 0),
+                    child: ValueListenableBuilder<ProgressBarState>(
+                      valueListenable: progressNotifier,
+                      builder: (_, value, __) {
+                        return ProgressBar(
+                          progress: value.current,
+                          buffered: value.buffered,
+                          total: value.total,
+                          onSeek: seek,
+                          baseBarColor: Color.fromARGB(255, 169, 170, 179),
+                          progressBarColor: Color.fromARGB(255, 6, 20, 97),
+                          thumbColor: Color.fromARGB(255, 6, 20, 97),
+                        );
+                      },
+                    ),
+                  )),
+              Flexible(
+                  flex: 2,
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        top: 0, left: 15, right: 15, bottom: 20),
+                    child: ValueListenableBuilder<ButtonState>(
+                      valueListenable: buttonNotifier,
+                      builder: (_, value, __) {
+                        switch (value) {
+                          case ButtonState.loading:
+                            return Container(
+                              margin: const EdgeInsets.all(8.0),
+                              width: 20.0,
+                              height: 20.0,
+                              child: const CircularProgressIndicator(
+                                color: Color.fromARGB(255, 6, 20, 97),
+                              ),
+                            );
+                          case ButtonState.paused:
+                            return IconButton(
+                              icon: const Icon(Icons.play_arrow),
+                              padding: EdgeInsets.all(2),
+                              iconSize: 32.0,
+                              onPressed: play,
+                            );
+                          case ButtonState.playing:
+                            return IconButton(
+                              icon: const Icon(Icons.pause),
+                              padding: EdgeInsets.all(2),
+                              iconSize: 32.0,
+                              onPressed: pause,
+                            );
+                        }
+                      },
+                    ),
+                  )),
+              Flexible(
+                  flex: 16,
+                  child: Container(
+                    child: ListView.builder(
+                        itemCount: wirds.length,
+                        itemBuilder: (context, index) {
+                          final single_wird = wirds[index];
+                          String wird_translate = "wird_id_" +
+                              single_wird.wird_cat_id +
+                              "_" +
+                              single_wird.wird_sub_cat_id +
+                              "_" +
+                              single_wird.wird_id;
+                          String wird_count = getTranslated(context, 'wird') +
+                              '  ' +
+                              getTranslated(context, single_wird.wird_id);
+                          String Repetition = getTranslated(
+                                  context, 'repetition') +
+                              '  ' +
+                              getTranslated(context, single_wird.repetition);
+                          return WirdCards(single_wird, wird_translate,
+                              Repetition, wird_count, context);
+                        }),
+                  )),
+            ],
+          ),
         ),
       ),
     );
@@ -250,7 +265,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                 getTranslated(context, wird_translate),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: fontSize(), fontWeight: FontWeight.w600),
+                    fontSize: fontSize() * _scale, fontWeight: FontWeight.w600),
               ),
               subtitle: Text(
                 '\n' + Repetition,
@@ -259,7 +274,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
 
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: fontSize(),
+                    fontSize: fontSize() * _scale,
                     color: Color.fromARGB(255, 6, 20, 97),
                     fontWeight: FontWeight.w500),
               ),
