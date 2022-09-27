@@ -59,6 +59,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+      _value = _value * _scale;
     });
   }
 
@@ -265,7 +266,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                 getTranslated(context, wird_translate),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: fontSize() * _scale, fontWeight: FontWeight.w600),
+                    fontSize: fontSize(), fontWeight: FontWeight.w600),
               ),
               subtitle: Text(
                 '\n' + Repetition,
@@ -274,7 +275,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
 
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: fontSize() * _scale,
+                    fontSize: fontSize(),
                     color: Color.fromARGB(255, 6, 20, 97),
                     fontWeight: FontWeight.w500),
               ),

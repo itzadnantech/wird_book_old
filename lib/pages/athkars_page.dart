@@ -40,6 +40,7 @@ class _AthkarsPageState extends State<AthkarsPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+      _value = _value * _scale;
     });
   }
 
@@ -142,7 +143,7 @@ class _AthkarsPageState extends State<AthkarsPage> {
             style: TextStyle(
                 // fontSize: Provider.of<FontSizeController>(context, listen: true)
                 //     .value,
-                fontSize: fontSize() * _scale,
+                fontSize: fontSize(),
                 color: Color.fromARGB(255, 6, 20, 97),
                 fontWeight: FontWeight.w600),
           ),

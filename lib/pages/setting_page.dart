@@ -39,6 +39,7 @@ class _SettingPageState extends State<SettingPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+      _value = _value * _scale;
     });
   }
 
@@ -90,7 +91,7 @@ class _SettingPageState extends State<SettingPage> {
                     getTranslated(context, 'FontSize'),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: fontSize() * _scale,
+                        fontSize: fontSize(),
                         color: Color.fromARGB(255, 6, 20, 97),
                         fontWeight: FontWeight.w400),
                   ),

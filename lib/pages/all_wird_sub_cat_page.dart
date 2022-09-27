@@ -41,6 +41,7 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+      _value = _value * _scale;
     });
   }
 
@@ -118,7 +119,7 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
             getTranslated(context, sub_wird_title),
             // list.wird_sub_cat_title,
             style: TextStyle(
-                fontSize: fontSize() * _scale,
+                fontSize: fontSize(),
                 color: Color.fromARGB(255, 6, 20, 97),
                 fontWeight: FontWeight.w600),
           ),
