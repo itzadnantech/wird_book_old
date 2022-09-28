@@ -1,5 +1,3 @@
-import 'dart:js_util';
-
 import 'package:flutter/material.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:wird_book/classes/language.dart';
@@ -151,7 +149,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
     return GestureDetector(
       onScaleUpdate: (ScaleUpdateDetails details) {
         setState(() {
-          _scale = (_prevScale * (details.scale));
+          _scale = (_prevScale + (details.scale));
         });
       },
       onScaleEnd: (ScaleEndDetails details) {

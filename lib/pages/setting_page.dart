@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:js_util';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wird_book/main.dart';
@@ -41,7 +40,9 @@ class _SettingPageState extends State<SettingPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+      print(_value);
       _value = _value * _scale;
+
       if (_value > GlobalFont.fontSize_max) {
         _value = GlobalFont.fontSize_max;
       }
@@ -65,7 +66,7 @@ class _SettingPageState extends State<SettingPage> {
     return GestureDetector(
       onScaleUpdate: (ScaleUpdateDetails details) {
         setState(() {
-          _scale = (_prevScale * (details.scale));
+          _scale = (_prevScale + (details.scale));
         });
       },
       onScaleEnd: (ScaleEndDetails details) {
@@ -270,21 +271,24 @@ class FontSizeController with ChangeNotifier {
   double get value => fontSize();
   void increment() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) + 0.05);
+    _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) + 0.02);
     if (_value > GlobalFont.fontSize_max) {
-      _value = GlobalFont.fontSize_min;
+      _value = GlobalFont.fontSize_max;
     }
     prefs.setDouble('value', _value);
+
     notifyListeners();
   }
 
   void decrement() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) - 0.05);
+    _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) - 0.02);
+
     if (_value < GlobalFont.fontSize_min) {
       _value = GlobalFont.fontSize_min;
     }
     prefs.setDouble('value', _value);
+
     notifyListeners();
   }
 }

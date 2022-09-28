@@ -64,7 +64,8 @@ class _AthkarsPageState extends State<AthkarsPage> {
     return GestureDetector(
       onScaleUpdate: (ScaleUpdateDetails details) {
         setState(() {
-          _scale = (_prevScale * (details.scale));
+          _scale = (_prevScale + (details.scale));
+          print(_scale);
         });
       },
       onScaleEnd: (ScaleEndDetails details) {
