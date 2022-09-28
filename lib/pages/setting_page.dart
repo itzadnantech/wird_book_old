@@ -40,8 +40,8 @@ class _SettingPageState extends State<SettingPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
-      print(_value);
-      _value = _value * _scale;
+
+      // _value = _value * _scale;
 
       if (_value > GlobalFont.fontSize_max) {
         _value = GlobalFont.fontSize_max;
@@ -66,7 +66,7 @@ class _SettingPageState extends State<SettingPage> {
     return GestureDetector(
       onScaleUpdate: (ScaleUpdateDetails details) {
         setState(() {
-          _scale = (_prevScale + (details.scale));
+          _scale = (_prevScale * (details.scale));
         });
       },
       onScaleEnd: (ScaleEndDetails details) {
@@ -283,6 +283,7 @@ class FontSizeController with ChangeNotifier {
   void decrement() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) - 0.02);
+    print(_value);
 
     if (_value < GlobalFont.fontSize_min) {
       _value = GlobalFont.fontSize_min;
