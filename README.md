@@ -2,7 +2,7 @@
 
 ## Todo List For This Version 3.2
 
-- Adjust font size using fingers on the screen ❗
+- Adjust font size using fingers on the screen ⏸
 - Add gestures package ✅
 - Add Setting navigate icon on all pages ✅
 - Remove stars from list ✅
