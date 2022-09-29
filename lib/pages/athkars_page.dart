@@ -158,7 +158,7 @@ class _AthkarsPageState extends State<AthkarsPage> {
           ),
           // leading: test(single_wird_category.wird_cat_id, context),
           trailing: const Icon(
-            Icons.star_sharp,
+            Icons.arrow_forward_rounded,
             color: Color.fromARGB(255, 6, 20, 97),
             size: 20,
           ),

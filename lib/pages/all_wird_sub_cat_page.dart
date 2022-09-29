@@ -78,6 +78,14 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
           centerTitle: true,
           title:
               Text(getTranslated(context, 'wird_cat_id_' + widget.wird_cat_id)),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SettingPage()));
+                }),
+          ],
         ),
         body: Column(
           children: <Widget>[
@@ -120,7 +128,8 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
           contentPadding:
               EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
           trailing: Icon(
-            Icons.star_sharp,
+            // Icons.arrow_circle_right,
+            Icons.arrow_forward_rounded,
             color: Color.fromARGB(255, 6, 20, 97),
             size: 20,
           ),

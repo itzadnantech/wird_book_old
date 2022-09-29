@@ -167,6 +167,14 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                   widget.wird_cat_id +
                   "_" +
                   widget.wird_sub_cat_id)),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SettingPage()));
+                }),
+          ],
         ),
         body: Padding(
           padding: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
