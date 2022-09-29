@@ -50,7 +50,7 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
       if (_value < GlobalFont.fontSize_min) {
         _value = GlobalFont.fontSize_min;
       }
-      prefs.setDouble('value', _value);
+      // prefs.setDouble('value', _value);
     });
   }
 

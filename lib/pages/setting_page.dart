@@ -40,9 +40,7 @@ class _SettingPageState extends State<SettingPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
-
-      // _value = _value * _scale;
-
+      _value = _value * _scale;
       if (_value > GlobalFont.fontSize_max) {
         _value = GlobalFont.fontSize_max;
       }
@@ -51,12 +49,33 @@ class _SettingPageState extends State<SettingPage> {
         _value = GlobalFont.fontSize_min;
       }
 
-      prefs.setDouble('value', _value);
+      // prefs.setDouble('value', _value);
     });
   }
 
   double fontSize() {
     init();
+    return _value;
+  }
+
+  void fontSizeSlider_async() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+      if (_value > GlobalFont.fontSize_max) {
+        _value = GlobalFont.fontSize_max;
+      }
+
+      if (_value < GlobalFont.fontSize_min) {
+        _value = GlobalFont.fontSize_min;
+      }
+
+      // prefs.setDouble('value', _value);
+    });
+  }
+
+  double fontSizeSlider() {
+    fontSizeSlider_async();
     return _value;
   }
 
@@ -180,14 +199,14 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget buildSlider(BuildContext context) {
-    double _currentSliderValue = fontSize();
+    double _currentSliderValue = fontSizeSlider();
     return Slider(
-      value: fontSize(),
+      value: fontSizeSlider(),
       activeColor: Color.fromARGB(255, 6, 20, 97),
       max: GlobalFont.fontSize_max,
       min: GlobalFont.fontSize_min,
       divisions: GlobalFont.fontSize_devisions,
-      label: fontSize().round().toString(),
+      label: fontSizeSlider().round().toString(),
       onChanged: (double value) {
         if (value < _currentSliderValue) {
           Provider.of<FontSizeController>(context, listen: false).decrement();
@@ -283,8 +302,6 @@ class FontSizeController with ChangeNotifier {
   void decrement() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) - 0.02);
-    print(_value);
-
     if (_value < GlobalFont.fontSize_min) {
       _value = GlobalFont.fontSize_min;
     }

@@ -69,7 +69,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
         _value = GlobalFont.fontSize_min;
       }
 
-      prefs.setDouble('value', _value);
+      // prefs.setDouble('value', _value);
     });
   }
 

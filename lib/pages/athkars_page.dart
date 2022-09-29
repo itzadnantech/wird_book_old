@@ -42,7 +42,6 @@ class _AthkarsPageState extends State<AthkarsPage> {
     setState(() {
       _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
       _value = _value * _scale;
-
       if (_value > GlobalFont.fontSize_max) {
         _value = GlobalFont.fontSize_max;
       }
@@ -50,7 +49,7 @@ class _AthkarsPageState extends State<AthkarsPage> {
       if (_value < GlobalFont.fontSize_min) {
         _value = GlobalFont.fontSize_min;
       }
-      prefs.setDouble('value', _value);
+      // prefs.setDouble('value', _value);
     });
   }
 
