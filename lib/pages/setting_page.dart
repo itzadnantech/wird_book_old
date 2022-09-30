@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wird_book/main.dart';
-import 'package:wird_book/config/fontSize.dart' as GlobalFont;
+import 'package:wird_book/config.dart' as config;
 import 'package:wird_book/localization/language_constants.dart';
 import 'package:wird_book/classes/language.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,17 +15,17 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  double _value = GlobalFont.fontSize_min;
-  double _prevScale = GlobalFont.prevScale;
-  double _scale = GlobalFont.scale;
+  double _value = config.fontSize_min;
+  double _prevScale = config.prevScale;
+  double _scale = config.scale;
   String selected_lng;
 
   @override
   void initState() {
     super.initState();
     fontSize();
-    _scale = GlobalFont.scale;
-    _prevScale = GlobalFont.prevScale;
+    _scale = config.scale;
+    _prevScale = config.prevScale;
     getLanguage();
   }
 
@@ -39,14 +39,14 @@ class _SettingPageState extends State<SettingPage> {
   void init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+      _value = prefs.getDouble('value') ?? config.fontSize_min;
       _value = _value * _scale;
-      if (_value > GlobalFont.fontSize_max) {
-        _value = GlobalFont.fontSize_max;
+      if (_value > config.fontSize_max) {
+        _value = config.fontSize_max;
       }
 
-      if (_value < GlobalFont.fontSize_min) {
-        _value = GlobalFont.fontSize_min;
+      if (_value < config.fontSize_min) {
+        _value = config.fontSize_min;
       }
 
       // prefs.setDouble('value', _value);
@@ -61,13 +61,13 @@ class _SettingPageState extends State<SettingPage> {
   void fontSizeSlider_async() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
-      if (_value > GlobalFont.fontSize_max) {
-        _value = GlobalFont.fontSize_max;
+      _value = prefs.getDouble('value') ?? config.fontSize_min;
+      if (_value > config.fontSize_max) {
+        _value = config.fontSize_max;
       }
 
-      if (_value < GlobalFont.fontSize_min) {
-        _value = GlobalFont.fontSize_min;
+      if (_value < config.fontSize_min) {
+        _value = config.fontSize_min;
       }
 
       // prefs.setDouble('value', _value);
@@ -95,7 +95,7 @@ class _SettingPageState extends State<SettingPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 6, 20, 97),
+          backgroundColor: Color(config.colorPrimary),
           centerTitle: true,
           title: Text(getTranslated(context, 'SettingPage')),
         ),
@@ -123,7 +123,7 @@ class _SettingPageState extends State<SettingPage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: fontSize(),
-                        color: Color.fromARGB(255, 6, 20, 97),
+                        color: Color(config.colorPrimary),
                         fontWeight: FontWeight.w400),
                   ),
                 ),
@@ -144,7 +144,7 @@ class _SettingPageState extends State<SettingPage> {
                       style: ElevatedButton.styleFrom(
                           shape: CircleBorder(),
                           padding: EdgeInsets.all(5),
-                          backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+                          backgroundColor: Color(config.colorPrimary)),
                     )),
                 Flexible(flex: 12, child: buildSlider(context)),
                 Flexible(
@@ -161,7 +161,7 @@ class _SettingPageState extends State<SettingPage> {
                     style: ElevatedButton.styleFrom(
                         shape: CircleBorder(),
                         padding: EdgeInsets.all(5),
-                        backgroundColor: Color.fromARGB(255, 6, 20, 97)),
+                        backgroundColor: Color(config.colorPrimary)),
                   ),
                 )
               ]),
@@ -186,7 +186,7 @@ class _SettingPageState extends State<SettingPage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: fontSize(),
-                        color: Color.fromARGB(255, 6, 20, 97),
+                        color: Color(config.colorPrimary),
                         fontWeight: FontWeight.w400),
                   ),
                 ),
@@ -202,10 +202,10 @@ class _SettingPageState extends State<SettingPage> {
     double _currentSliderValue = fontSizeSlider();
     return Slider(
       value: fontSizeSlider(),
-      activeColor: Color.fromARGB(255, 6, 20, 97),
-      max: GlobalFont.fontSize_max,
-      min: GlobalFont.fontSize_min,
-      divisions: GlobalFont.fontSize_devisions,
+      activeColor: Color(config.colorPrimary),
+      max: config.fontSize_max,
+      min: config.fontSize_min,
+      divisions: config.fontSize_devisions,
       label: fontSizeSlider().round().toString(),
       onChanged: (double value) {
         if (value < _currentSliderValue) {
@@ -236,15 +236,15 @@ class _SettingPageState extends State<SettingPage> {
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32.0),
-                    side: BorderSide(color: Color.fromARGB(255, 6, 20, 97))),
+                    side: BorderSide(color: Color(config.colorPrimary))),
                 padding:
                     EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),
                 backgroundColor: selected_lng == 'en'
-                    ? Color.fromARGB(255, 6, 20, 97)
+                    ? Color(config.colorPrimary)
                     : Colors.white,
                 foregroundColor: selected_lng == 'en'
                     ? Colors.white
-                    : Color.fromARGB(255, 6, 20, 97)),
+                    : Color(config.colorPrimary)),
           )),
       SizedBox(width: 30),
       Flexible(
@@ -259,14 +259,14 @@ class _SettingPageState extends State<SettingPage> {
           style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
-                  side: BorderSide(color: Color.fromARGB(255, 6, 20, 97))),
+                  side: BorderSide(color: Color(config.colorPrimary))),
               padding: EdgeInsets.only(top: 5, bottom: 5, right: 15, left: 15),
               backgroundColor: selected_lng == 'ar'
-                  ? Color.fromARGB(255, 6, 20, 97)
+                  ? Color(config.colorPrimary)
                   : Colors.white,
               foregroundColor: selected_lng == 'ar'
                   ? Colors.white
-                  : Color.fromARGB(255, 6, 20, 97)),
+                  : Color(config.colorPrimary)),
         ),
       ),
     ]);
@@ -274,12 +274,12 @@ class _SettingPageState extends State<SettingPage> {
 }
 
 class FontSizeController with ChangeNotifier {
-  double _value = GlobalFont.fontSize_min;
+  double _value = config.fontSize_min;
   // Obtain shared preferences.
 
   void init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+    _value = prefs.getDouble('value') ?? config.fontSize_min;
   }
 
   double fontSize() {
@@ -290,9 +290,9 @@ class FontSizeController with ChangeNotifier {
   double get value => fontSize();
   void increment() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) + 0.02);
-    if (_value > GlobalFont.fontSize_max) {
-      _value = GlobalFont.fontSize_max;
+    _value = ((prefs.getDouble('value') ?? config.fontSize_min) + 0.02);
+    if (_value > config.fontSize_max) {
+      _value = config.fontSize_max;
     }
     prefs.setDouble('value', _value);
 
@@ -301,9 +301,9 @@ class FontSizeController with ChangeNotifier {
 
   void decrement() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _value = ((prefs.getDouble('value') ?? GlobalFont.fontSize_min) - 0.02);
-    if (_value < GlobalFont.fontSize_min) {
-      _value = GlobalFont.fontSize_min;
+    _value = ((prefs.getDouble('value') ?? config.fontSize_min) - 0.02);
+    if (_value < config.fontSize_min) {
+      _value = config.fontSize_min;
     }
     prefs.setDouble('value', _value);
 

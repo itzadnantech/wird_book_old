@@ -5,6 +5,7 @@ import 'package:wird_book/pages/setting_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'localization/language_constants.dart';
+import 'package:wird_book/config.dart' as config;
 
 void main() => runApp(
       MultiProvider(
@@ -50,8 +51,8 @@ class _MyAppState extends State<MyApp> {
       return Container(
         child: Center(
           child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(
-                  Color.fromARGB(255, 6, 20, 97))),
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(Color(config.colorPrimary))),
         ),
       );
     } else {
@@ -59,7 +60,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: "Wird Book App",
         theme: ThemeData(
-          primaryColor: Color.fromARGB(255, 6, 20, 97),
+          primaryColor: Color(config.colorPrimary),
         ),
         locale: _locale,
         supportedLocales: [

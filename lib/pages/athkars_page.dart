@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wird_book/classes/language.dart';
 import 'package:wird_book/localization/language_constants.dart';
 import 'package:wird_book/main.dart';
+import 'package:wird_book/config.dart' as config;
 import 'package:wird_book/pages/all_wird_sub_cat_page.dart';
 import 'package:wird_book/router/route_constants.dart';
 import 'package:wird_book/widget/search_widget.dart';
@@ -10,7 +11,6 @@ import 'package:wird_book/model/wird_category.dart';
 import 'package:wird_book/pages/setting_page.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wird_book/config/fontSize.dart' as GlobalFont;
 
 class AthkarsPage extends StatefulWidget {
   const AthkarsPage({Key key}) : super(key: key);
@@ -24,30 +24,30 @@ class _AthkarsPageState extends State<AthkarsPage> {
 
   List<Wird_Category> list_wird_category;
   String query = '';
-  double _value = GlobalFont.fontSize_min;
-  double _prevScale = GlobalFont.prevScale;
-  double _scale = GlobalFont.scale;
+  double _value = config.fontSize_min;
+  double _prevScale = config.prevScale;
+  double _scale = config.scale;
 
   @override
   void initState() {
     super.initState();
     fontSize();
     list_wird_category = all_wird_cats;
-    _scale = GlobalFont.scale;
-    _prevScale = GlobalFont.prevScale;
+    _scale = config.scale;
+    _prevScale = config.prevScale;
   }
 
   void init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+      _value = prefs.getDouble('value') ?? config.fontSize_min;
       _value = _value * _scale;
-      if (_value > GlobalFont.fontSize_max) {
-        _value = GlobalFont.fontSize_max;
+      if (_value > config.fontSize_max) {
+        _value = config.fontSize_max;
       }
 
-      if (_value < GlobalFont.fontSize_min) {
-        _value = GlobalFont.fontSize_min;
+      if (_value < config.fontSize_min) {
+        _value = config.fontSize_min;
       }
       // prefs.setDouble('value', _value);
     });
@@ -73,7 +73,7 @@ class _AthkarsPageState extends State<AthkarsPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 6, 20, 97),
+          backgroundColor: Color(config.colorPrimary),
           centerTitle: true,
           title: Text(getTranslated(context, 'homePage')),
           actions: <Widget>[
@@ -88,23 +88,25 @@ class _AthkarsPageState extends State<AthkarsPage> {
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextField(
-                onChanged: searchWirdCategory,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 15),
-                  hintText: getTranslated(context, 'search'),
-                  suffixIcon: const Icon(Icons.search),
-                  // prefix: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 6, 20, 97), width: 4.0),
+              Container(
+                margin: EdgeInsets.all(6),
+                child: TextField(
+                  onChanged: searchWirdCategory,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 15),
+                    hintText: getTranslated(context, 'search'),
+                    suffixIcon: Icon(
+                      Icons.search,
+                      color: Color(config.colorPrimary),
+                    ),
+                    // prefix: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Color(config.colorPrimary)),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
               ),
               Expanded(
                 child: ListView.builder(
@@ -153,13 +155,13 @@ class _AthkarsPageState extends State<AthkarsPage> {
                 // fontSize: Provider.of<FontSizeController>(context, listen: true)
                 //     .value,
                 fontSize: fontSize(),
-                color: Color.fromARGB(255, 6, 20, 97),
+                color: Color(config.colorPrimary),
                 fontWeight: FontWeight.w600),
           ),
           // leading: test(single_wird_category.wird_cat_id, context),
-          trailing: const Icon(
+          trailing: Icon(
             Icons.arrow_forward_rounded,
-            color: Color.fromARGB(255, 6, 20, 97),
+            color: Color(config.colorPrimary),
             size: 20,
           ),
           onTap: () {

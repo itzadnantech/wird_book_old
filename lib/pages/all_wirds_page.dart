@@ -10,7 +10,7 @@ import 'package:wird_book/model/wird.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:wird_book/pages/setting_page.dart';
 import 'package:provider/provider.dart';
-import 'package:wird_book/config/fontSize.dart' as GlobalFont;
+import 'package:wird_book/config.dart' as config;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AllWirdsPage extends StatefulWidget {
@@ -38,16 +38,16 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   final buttonNotifier = ValueNotifier<ButtonState>(ButtonState.paused);
 
   AudioPlayer _audioPlayer;
-  double _value = GlobalFont.fontSize_min;
-  double _prevScale = GlobalFont.prevScale;
-  double _scale = GlobalFont.scale;
+  double _value = config.fontSize_min;
+  double _prevScale = config.prevScale;
+  double _scale = config.scale;
 
   @override
   void initState() {
     super.initState();
     fontSize();
-    _scale = GlobalFont.scale;
-    _prevScale = GlobalFont.prevScale;
+    _scale = config.scale;
+    _prevScale = config.prevScale;
     _init();
     wirds = all_wirds
         .where((medium) =>
@@ -59,14 +59,14 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   void init_fontSize() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+      _value = prefs.getDouble('value') ?? config.fontSize_min;
       _value = _value * _scale;
-      if (_value > GlobalFont.fontSize_max) {
-        _value = GlobalFont.fontSize_max;
+      if (_value > config.fontSize_max) {
+        _value = config.fontSize_max;
       }
 
-      if (_value < GlobalFont.fontSize_min) {
-        _value = GlobalFont.fontSize_min;
+      if (_value < config.fontSize_min) {
+        _value = config.fontSize_min;
       }
 
       // prefs.setDouble('value', _value);
@@ -159,7 +159,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 6, 20, 97),
+          backgroundColor: Color(config.colorPrimary),
           centerTitle: true,
           title: Text(getTranslated(
               context,
@@ -194,8 +194,8 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                           total: value.total,
                           onSeek: seek,
                           baseBarColor: Color.fromARGB(255, 169, 170, 179),
-                          progressBarColor: Color.fromARGB(255, 6, 20, 97),
-                          thumbColor: Color.fromARGB(255, 6, 20, 97),
+                          progressBarColor: Color(config.colorPrimary),
+                          thumbColor: Color(config.colorPrimary),
                         );
                       },
                     ),
@@ -214,8 +214,8 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                               margin: const EdgeInsets.all(8.0),
                               width: 20.0,
                               height: 20.0,
-                              child: const CircularProgressIndicator(
-                                color: Color.fromARGB(255, 6, 20, 97),
+                              child: CircularProgressIndicator(
+                                color: Color(config.colorPrimary),
                               ),
                             );
                           case ButtonState.paused:
@@ -294,7 +294,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: fontSize(),
-                    color: Color.fromARGB(255, 6, 20, 97),
+                    color: Color(config.colorPrimary),
                     fontWeight: FontWeight.w500),
               ),
             )),
