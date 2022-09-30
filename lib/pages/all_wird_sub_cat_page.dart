@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:wird_book/classes/language.dart';
 import 'package:wird_book/localization/language_constants.dart';
-import 'package:wird_book/main.dart';
-import 'package:wird_book/pages/athkars_page.dart';
 import 'package:wird_book/pages/all_wirds_page.dart';
 import 'package:wird_book/data/all_wird_sub_cats.dart';
 import 'package:wird_book/model/wird_sub_category.dart';
 import 'package:wird_book/pages/setting_page.dart';
-import 'package:provider/provider.dart';
 import 'package:wird_book/config.dart' as config;
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
-import 'package:wird_book/classes/language.dart';
 import 'package:wird_book/localization/language_constants.dart';
-import 'package:wird_book/main.dart';
-// import 'package:wird_book/page_manager.dart';
-import 'package:wird_book/pages/all_wird_sub_cat_page.dart';
 import 'package:wird_book/data/all_wirds.dart';
 import 'package:wird_book/model/wird.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:wird_book/pages/setting_page.dart';
-import 'package:provider/provider.dart';
+
 import 'package:wird_book/config.dart' as config;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -128,6 +125,17 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   }
 
   void play() {
+    AudioSource.uri(
+      Uri.parse(widget.wird_audio_link),
+      tag: MediaItem(
+        // Specify a unique ID for each media item:
+        id: '1',
+        // Metadata to display in the notification:
+        album: "Album name",
+        title: "Song name",
+        artUri: Uri.parse('https://example.com/albumart.jpg'),
+      ),
+    );
     _audioPlayer.play();
   }
 

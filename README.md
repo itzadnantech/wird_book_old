@@ -2,6 +2,7 @@
 
 ## Todo List For This Version 3.3
 
+- Add Package just_audio_background ✅
 - Play wird in the background ⏸
 - Show playing wird in the notification bar ⏩
 - adjust search bar margin in athkars page ✅

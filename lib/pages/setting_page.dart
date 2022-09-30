@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wird_book/main.dart';
 import 'package:wird_book/config.dart' as config;
 import 'package:wird_book/localization/language_constants.dart';
-import 'package:wird_book/classes/language.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingPage extends StatefulWidget {

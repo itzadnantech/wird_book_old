@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wird_book/classes/language.dart';
 import 'package:wird_book/localization/language_constants.dart';
-import 'package:wird_book/main.dart';
 import 'package:wird_book/config.dart' as config;
 import 'package:wird_book/pages/all_wird_sub_cat_page.dart';
-import 'package:wird_book/router/route_constants.dart';
 import 'package:wird_book/widget/search_widget.dart';
 import 'package:wird_book/data/all_wird_cats.dart';
 import 'package:wird_book/model/wird_category.dart';
 import 'package:wird_book/pages/setting_page.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AthkarsPage extends StatefulWidget {
