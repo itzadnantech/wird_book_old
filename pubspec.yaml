@@ -32,6 +32,8 @@ dependencies:
   provider: ^6.0.3
   gestures: ^1.0.0
   just_audio_background: ^0.0.1-beta.7
+  flutter_swiper: ^1.1.6
+  flutter_animation_progress_bar: ^2.2.1
 
 dev_dependencies:
   flutter_lints: ^2.0.1
