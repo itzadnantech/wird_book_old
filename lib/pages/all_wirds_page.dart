@@ -192,89 +192,9 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
           ],
         ),
         body: Padding(
-          padding:
-              const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
+          padding: const EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5),
           child: Column(
             children: [
-              Flexible(
-                  flex: 1,
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                        top: 10, left: 80, right: 80, bottom: 0),
-                    child: ValueListenableBuilder<ProgressBarState>(
-                      valueListenable: progressNotifier,
-                      builder: (_, value, __) {
-                        return ProgressBar(
-                          progress: value.current,
-                          buffered: value.buffered,
-                          total: value.total,
-                          onSeek: seek,
-                          baseBarColor:
-                              const Color.fromARGB(255, 169, 170, 179),
-                          progressBarColor: Color(config.colorPrimary),
-                          thumbColor: Color(config.colorPrimary),
-                        );
-                      },
-                    ),
-                  )),
-              Flexible(
-                  flex: 2,
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                        top: 0, left: 15, right: 15, bottom: 0),
-                    child: ValueListenableBuilder<ButtonState>(
-                      valueListenable: buttonNotifier,
-                      // ignore: missing_return
-                      builder: (_, value, __) {
-                        switch (value) {
-                          case ButtonState.loading:
-                            return Container(
-                              margin: const EdgeInsets.all(8.0),
-                              width: 20.0,
-                              height: 20.0,
-                              child: CircularProgressIndicator(
-                                color: Color(config.colorPrimary),
-                              ),
-                            );
-                          case ButtonState.paused:
-                            return IconButton(
-                              icon: const Icon(Icons.play_arrow),
-                              padding: const EdgeInsets.all(2),
-                              iconSize: 32.0,
-                              onPressed: play,
-                            );
-                          case ButtonState.playing:
-                            return IconButton(
-                              icon: const Icon(Icons.pause),
-                              padding: const EdgeInsets.all(2),
-                              iconSize: 32.0,
-                              onPressed: pause,
-                            );
-                        }
-                      },
-                    ),
-                  )),
-              SizedBox(height: 30),
-              Flexible(
-                  flex: 2,
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                        top: 0, left: 13, right: 13, bottom: 0),
-                    child: FAProgressBar(
-                      currentValue: _currentValue,
-                      size: 13,
-                      maxValue: _total_wirds,
-                      // changeColorValue: 100,
-                      // changeProgressColor: Colors.pink,
-                      backgroundColor: Color.fromARGB(255, 169, 170, 179),
-                      progressColor: Color(config.colorPrimary),
-                      animatedDuration: const Duration(milliseconds: 300),
-                      direction: Axis.horizontal,
-                      verticalDirection: VerticalDirection.down,
-                      displayText: '',
-                      formatValueFixed: 0,
-                    ),
-                  )),
               Flexible(
                 flex: 16,
                 child: Swiper(
@@ -283,7 +203,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                   control: SwiperControl(
                       iconNext: Icons.arrow_forward_rounded,
                       iconPrevious: Icons.arrow_back_rounded,
-                      padding: EdgeInsets.only(left: 40, right: 40, top: 205)),
+                      padding: EdgeInsets.only(left: 40, right: 40, top: 475)),
                   itemBuilder: (BuildContext context, int index) {
                     final single_wird = wirds[index];
                     String indexs = index.toString();
@@ -311,20 +231,102 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   Widget _buildListItem(Wird single_wird, wird_translate, Repetition,
       wird_count, BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(
-        left: 12,
-        right: 12,
-        bottom: 8,
-        top: 8,
-      ),
+      margin: const EdgeInsets.all(5),
       color: Colors.white,
       elevation: 3,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
         child: Column(
           children: <Widget>[
+            Flexible(
+                flex: 2,
+                child: Container(
+                  padding: const EdgeInsets.only(
+                      top: 10, left: 0, right: 0, bottom: 10),
+                  child: FAProgressBar(
+                    currentValue: _currentValue,
+                    size: 5,
+                    maxValue: _total_wirds,
+                    // changeColorValue: 100,
+                    // changeProgressColor: Colors.pink,
+                    backgroundColor: Color.fromARGB(255, 169, 170, 179),
+                    progressColor: Color(config.colorPrimary),
+                    animatedDuration: const Duration(milliseconds: 300),
+                    direction: Axis.horizontal,
+                    verticalDirection: VerticalDirection.down,
+                    // displayText: '',
+                    // formatValueFixed: 0,
+                  ),
+                )),
+            Divider(
+              color: Color(config.colorPrimary),
+            ),
+            Flexible(
+                flex: 1,
+                child: Container(
+                  padding: const EdgeInsets.only(
+                      top: 10, left: 0, right: 0, bottom: 0),
+                  child: ValueListenableBuilder<ProgressBarState>(
+                    valueListenable: progressNotifier,
+                    builder: (_, value, __) {
+                      return ProgressBar(
+                        progress: value.current,
+                        buffered: value.buffered,
+                        total: value.total,
+                        onSeek: seek,
+                        baseBarColor: const Color.fromARGB(255, 169, 170, 179),
+                        progressBarColor: Color(config.colorPrimary),
+                        thumbColor: Color(config.colorPrimary),
+                        thumbGlowRadius: 5,
+                        thumbRadius: 5,
+                      );
+                    },
+                  ),
+                )),
+            const SizedBox(height: 15),
+            Flexible(
+                flex: 2,
+                child: Container(
+                  padding: const EdgeInsets.only(
+                      top: 0, left: 5, right: 5, bottom: 0),
+                  child: ValueListenableBuilder<ButtonState>(
+                    valueListenable: buttonNotifier,
+                    // ignore: missing_return
+                    builder: (_, value, __) {
+                      switch (value) {
+                        case ButtonState.loading:
+                          return Container(
+                            margin: const EdgeInsets.all(8.0),
+                            width: 20.0,
+                            height: 20.0,
+                            child: CircularProgressIndicator(
+                              color: Color(config.colorPrimary),
+                            ),
+                          );
+                        case ButtonState.paused:
+                          return IconButton(
+                            icon: const Icon(Icons.play_arrow),
+                            padding: const EdgeInsets.all(2),
+                            iconSize: 32.0,
+                            onPressed: play,
+                          );
+                        case ButtonState.playing:
+                          return IconButton(
+                            icon: const Icon(Icons.pause),
+                            padding: const EdgeInsets.all(2),
+                            iconSize: 32.0,
+                            onPressed: pause,
+                          );
+                      }
+                    },
+                  ),
+                )),
+            const SizedBox(
+              height: 10,
+            ),
+            Divider(color: Color(config.colorPrimary)),
             SizedBox(
-              height: 150,
+              height: 320,
               child: ListTile(
                 contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
                 title: Text(
@@ -333,40 +335,16 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                   style: TextStyle(
                       fontSize: fontSize(), fontWeight: FontWeight.w600),
                 ),
-                // subtitle: Text(
-                //   '\n' + Repetition,
-                //   // wird_count + '\n\n' + Repetition + '\n\n',
-                //   // getTranslated(context, "wird_" + single_wird.wird_id),
-
-                //   textAlign: TextAlign.center,
-                //   style: TextStyle(
-                //       fontSize: fontSize(),
-                //       color: Color(config.colorPrimary),
-                //       fontWeight: FontWeight.w500),
-                // ),
               ),
             ),
-            const Divider(),
-            const SizedBox(height: 90),
+            Divider(color: Color(config.colorPrimary)),
+            const SizedBox(height: 15),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Flexible(
                   flex: 2,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      controller.move(1);
-                    },
-                    child: Text(Repetition),
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(130, 50),
-                      foregroundColor: Colors.white,
-                      backgroundColor: Color(config.colorPrimary),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32.0),
-                          side: BorderSide(color: Color(config.colorPrimary))),
-                      padding: const EdgeInsets.only(
-                          top: 5, bottom: 5, right: 15, left: 15),
-                    ),
-                  )),
+                  child: Text(Repetition,
+                      style: TextStyle(
+                          fontSize: fontSize(), fontWeight: FontWeight.w600))),
             ])
           ],
         ),

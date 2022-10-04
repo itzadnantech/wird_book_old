@@ -81,7 +81,7 @@ class _AthkarsPageState extends State<AthkarsPage> {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(5),
           child: Column(
             children: [
               Container(

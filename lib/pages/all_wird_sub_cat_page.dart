@@ -108,7 +108,7 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
   Widget buildBook(Wird_Sub_Category list, sub_wird_title, context) =>
       Container(
         // margin: EdgeInsets.all(15),
-        margin: const EdgeInsets.only(top: 8, left: 15, right: 15, bottom: 8),
+        margin: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
