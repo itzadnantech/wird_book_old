@@ -43,7 +43,8 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   double _prevScale = config.prevScale;
   double _scale = config.scale;
   final controller = SwiperController();
-  double _currentValue = 10;
+  double _currentValue = 0;
+  double _total_wirds = 0;
 
   @override
   void initState() {
@@ -58,6 +59,9 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
             medium.wird_cat_id == widget.wird_cat_id)
         .toList();
     ;
+
+    String total_wirds_str = wirds.length.toString();
+    _total_wirds = double.parse(total_wirds_str);
   }
 
   void init_fontSize() async {
@@ -255,30 +259,36 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                   flex: 2,
                   child: Container(
                     padding: const EdgeInsets.only(
-                        top: 0, left: 15, right: 15, bottom: 0),
+                        top: 0, left: 13, right: 13, bottom: 0),
                     child: FAProgressBar(
                       currentValue: _currentValue,
                       size: 13,
-                      maxValue: 60,
-                      changeColorValue: 100,
+                      maxValue: _total_wirds,
+                      // changeColorValue: 100,
                       // changeProgressColor: Colors.pink,
                       backgroundColor: Color.fromARGB(255, 169, 170, 179),
                       progressColor: Color(config.colorPrimary),
                       animatedDuration: const Duration(milliseconds: 300),
                       direction: Axis.horizontal,
                       verticalDirection: VerticalDirection.down,
-                      displayText: '%',
+                      displayText: '',
                       formatValueFixed: 0,
                     ),
                   )),
               Flexible(
                 flex: 16,
                 child: Swiper(
+                  loop: false,
                   controller: SwiperController(),
                   control: SwiperControl(
-                      padding: EdgeInsets.only(left: 70, right: 70, top: 215)),
+                      iconNext: Icons.arrow_forward_rounded,
+                      iconPrevious: Icons.arrow_back_rounded,
+                      padding: EdgeInsets.only(left: 40, right: 40, top: 205)),
                   itemBuilder: (BuildContext context, int index) {
                     final single_wird = wirds[index];
+                    String indexs = index.toString();
+                    _currentValue = 1 + double.parse(indexs);
+
                     String wird_translate =
                         "wird_id_${single_wird.wird_cat_id}_${single_wird.wird_sub_cat_id}_${single_wird.wird_id}";
                     String wird_count =
@@ -301,9 +311,14 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   Widget _buildListItem(Wird single_wird, wird_translate, Repetition,
       wird_count, BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(
+        left: 12,
+        right: 12,
+        bottom: 8,
+        top: 8,
+      ),
       color: Colors.white,
-      elevation: 10,
+      elevation: 3,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
         child: Column(
@@ -332,7 +347,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
               ),
             ),
             const Divider(),
-            const SizedBox(height: 100),
+            const SizedBox(height: 90),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Flexible(
                   flex: 2,
@@ -342,14 +357,14 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                     },
                     child: Text(Repetition),
                     style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(150, 30),
+                      fixedSize: const Size(130, 50),
                       foregroundColor: Colors.white,
                       backgroundColor: Color(config.colorPrimary),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(32.0),
                           side: BorderSide(color: Color(config.colorPrimary))),
                       padding: const EdgeInsets.only(
-                          top: 10, bottom: 10, right: 15, left: 15),
+                          top: 5, bottom: 5, right: 15, left: 15),
                     ),
                   )),
             ])
