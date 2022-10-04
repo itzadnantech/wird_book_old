@@ -1,15 +1,12 @@
 # wird_book
 
-A new Flutter project.
+## Todo List For This Version
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Add font setting page
+- Control font size using slider
+- Add language setting to setting page
+- Control font size by finger scrolling
+- Check font size and weight into Wird
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
