@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wird_book/main.dart';
@@ -98,7 +100,7 @@ class _SettingPageState extends State<SettingPage> {
           title: Text(getTranslated(context, 'SettingPage')),
         ),
         body: Padding(
-            padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
+            padding: EdgeInsets.only(top: 10, left: 5, right: 5, bottom: 10),
             child: Column(children: <Widget>[
               Divider(),
               Container(
@@ -136,13 +138,13 @@ class _SettingPageState extends State<SettingPage> {
                         Provider.of<FontSizeController>(context, listen: false)
                             .decrement();
                       },
+                      style: ElevatedButton.styleFrom(
+                          shape: const CircleBorder(),
+                          padding: const EdgeInsets.all(5),
+                          backgroundColor: Color(config.colorPrimary)),
                       child: Icon(
                         Icons.remove,
                       ),
-                      style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(),
-                          padding: EdgeInsets.all(5),
-                          backgroundColor: Color(config.colorPrimary)),
                     )),
                 Flexible(flex: 12, child: buildSlider(context)),
                 Flexible(
@@ -195,7 +197,6 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
-  @override
   Widget buildSlider(BuildContext context) {
     double _currentSliderValue = fontSizeSlider();
     return Slider(
@@ -232,11 +233,12 @@ class _SettingPageState extends State<SettingPage> {
             },
             child: Text('English'),
             style: ElevatedButton.styleFrom(
+                fixedSize: Size(100, 30),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32.0),
                     side: BorderSide(color: Color(config.colorPrimary))),
                 padding:
-                    EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),
+                    EdgeInsets.only(top: 5, bottom: 5, right: 15, left: 15),
                 backgroundColor: selected_lng == 'en'
                     ? Color(config.colorPrimary)
                     : Colors.white,
@@ -255,6 +257,7 @@ class _SettingPageState extends State<SettingPage> {
           },
           child: Text('العربية'.trim()),
           style: ElevatedButton.styleFrom(
+              fixedSize: Size(100, 30),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                   side: BorderSide(color: Color(config.colorPrimary))),

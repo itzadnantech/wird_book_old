@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, prefer_interpolation_to_compose_strings
+// ignore_for_file: non_constant_identifier_names, prefer_interpolation_to_compose_strings, prefer_const_constructors
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
@@ -43,8 +43,6 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   double _prevScale = config.prevScale;
   double _scale = config.scale;
   final controller = SwiperController();
-  double _currentValue = 0;
-  double _total_wirds = 0;
 
   @override
   void initState() {
@@ -59,9 +57,6 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
             medium.wird_cat_id == widget.wird_cat_id)
         .toList();
     ;
-
-    String total_wirds_str = wirds.length.toString();
-    _total_wirds = double.parse(total_wirds_str);
   }
 
   void init_fontSize() async {
@@ -200,14 +195,12 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                 child: Swiper(
                   loop: false,
                   controller: SwiperController(),
-                  control: SwiperControl(
+                  control: const SwiperControl(
                       iconNext: Icons.arrow_forward_rounded,
                       iconPrevious: Icons.arrow_back_rounded,
                       padding: EdgeInsets.only(left: 40, right: 40, top: 475)),
                   itemBuilder: (BuildContext context, int index) {
                     final single_wird = wirds[index];
-                    String indexs = index.toString();
-                    _currentValue = 1 + double.parse(indexs);
 
                     String wird_translate =
                         "wird_id_${single_wird.wird_cat_id}_${single_wird.wird_sub_cat_id}_${single_wird.wird_id}";
@@ -216,7 +209,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                     String Repetition =
                         '${getTranslated(context, 'repetition')}  ${getTranslated(context, single_wird.repetition)}';
                     return _buildListItem(single_wird, wird_translate,
-                        Repetition, wird_count, context);
+                        Repetition, wird_count, wirds.length, context);
                   },
                   itemCount: wirds.length,
                 ),
@@ -229,7 +222,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   }
 
   Widget _buildListItem(Wird single_wird, wird_translate, Repetition,
-      wird_count, BuildContext context) {
+      wird_count, total_wird, BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(5),
       color: Colors.white,
@@ -244,14 +237,14 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
                   padding: const EdgeInsets.only(
                       top: 10, left: 0, right: 0, bottom: 10),
                   child: FAProgressBar(
-                    currentValue: _currentValue,
-                    size: 5,
-                    maxValue: _total_wirds,
+                    currentValue: double.parse(single_wird.wird_id),
+                    size: 8,
+                    maxValue: double.parse(total_wird.toString()),
                     // changeColorValue: 100,
                     // changeProgressColor: Colors.pink,
                     backgroundColor: Color.fromARGB(255, 169, 170, 179),
                     progressColor: Color(config.colorPrimary),
-                    animatedDuration: const Duration(milliseconds: 300),
+                    animatedDuration: const Duration(milliseconds: 0),
                     direction: Axis.horizontal,
                     verticalDirection: VerticalDirection.down,
                     // displayText: '',
