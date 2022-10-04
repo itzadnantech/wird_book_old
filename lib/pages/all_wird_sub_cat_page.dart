@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wird_book/classes/language.dart';
 import 'package:wird_book/localization/language_constants.dart';
-import 'package:wird_book/main.dart';
-import 'package:wird_book/pages/athkars_page.dart';
 import 'package:wird_book/pages/all_wirds_page.dart';
 import 'package:wird_book/data/all_wird_sub_cats.dart';
 import 'package:wird_book/model/wird_sub_category.dart';
 import 'package:wird_book/pages/setting_page.dart';
-import 'package:provider/provider.dart';
-import 'package:wird_book/config/fontSize.dart' as GlobalFont;
+import 'package:wird_book/config.dart' as config;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AllWirdSubCatPage extends StatefulWidget {
@@ -23,12 +19,16 @@ class AllWirdSubCatPage extends StatefulWidget {
 class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
   List<Wird_Sub_Category> subwirds;
 
-  double _value = GlobalFont.fontSize_min;
+  double _value = config.fontSize_min;
+  double _prevScale = config.prevScale;
+  double _scale = config.scale;
 
   @override
   void initState() {
     super.initState();
     fontSize();
+    _scale = config.scale;
+    _prevScale = config.prevScale;
     subwirds = all_wird_sub_cats
         .where((medium) => medium.wird_cat_id == widget.wird_cat_id)
         .toList();
@@ -37,7 +37,16 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
   void init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _value = prefs.getDouble('value') ?? GlobalFont.fontSize_min;
+      _value = prefs.getDouble('value') ?? config.fontSize_min;
+      _value = _value * _scale;
+      if (_value > config.fontSize_max) {
+        _value = config.fontSize_max;
+      }
+
+      if (_value < config.fontSize_min) {
+        _value = config.fontSize_min;
+      }
+      // prefs.setDouble('value', _value);
     });
   }
 
@@ -47,12 +56,32 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onScaleUpdate: (ScaleUpdateDetails details) {
+        setState(() {
+          _scale = (_prevScale * (details.scale));
+        });
+      },
+      onScaleEnd: (ScaleEndDetails details) {
+        setState(() {
+          _prevScale = _scale;
+        });
+      },
+      child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 6, 20, 97),
+          backgroundColor: Color(config.colorPrimary),
           centerTitle: true,
           title:
               Text(getTranslated(context, 'wird_cat_id_' + widget.wird_cat_id)),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SettingPage()));
+                }),
+          ],
         ),
         body: Column(
           children: <Widget>[
@@ -72,12 +101,14 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
             ),
           ],
         ),
-      );
+      ),
+    );
+  }
 
   Widget buildBook(Wird_Sub_Category list, sub_wird_title, context) =>
       Container(
-        margin: EdgeInsets.all(10),
-        // margin: const EdgeInsets.only(top: 20.0),
+        // margin: EdgeInsets.all(15),
+        margin: const EdgeInsets.only(top: 8, left: 15, right: 15, bottom: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Colors.white,
@@ -91,10 +122,11 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
         ),
         child: ListTile(
           contentPadding:
-              EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 0),
+              EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
           trailing: Icon(
-            Icons.star_sharp,
-            color: Color.fromARGB(255, 6, 20, 97),
+            // Icons.arrow_circle_right,
+            Icons.arrow_forward_rounded,
+            color: Color(config.colorPrimary),
             size: 20,
           ),
           leading: Text(
@@ -102,8 +134,8 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
             // list.wird_sub_cat_title,
             style: TextStyle(
                 fontSize: fontSize(),
-                color: Color.fromARGB(255, 6, 20, 97),
-                fontWeight: FontWeight.w400),
+                color: Color(config.colorPrimary),
+                fontWeight: FontWeight.w600),
           ),
           onTap: () {
             Navigator.push(
