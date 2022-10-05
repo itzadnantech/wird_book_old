@@ -6,14 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'localization/language_constants.dart';
 import 'package:wird_book/config.dart' as config;
-import 'package:just_audio_background/just_audio_background.dart';
 
 Future<void> main() async {
-  await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
-    androidNotificationChannelName: 'Audio playback',
-    androidNotificationOngoing: true,
-  );
   runApp(
     MultiProvider(
       providers: [

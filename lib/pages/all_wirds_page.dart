@@ -6,7 +6,6 @@ import 'package:wird_book/localization/language_constants.dart';
 import 'package:wird_book/data/all_wirds.dart';
 import 'package:wird_book/model/wird.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:wird_book/pages/setting_page.dart';
 
 import 'package:wird_book/config.dart' as config;
@@ -131,17 +130,6 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   }
 
   void play() {
-    AudioSource.uri(
-      Uri.parse(widget.wird_audio_link),
-      tag: MediaItem(
-        // Specify a unique ID for each media item:
-        id: '1',
-        // Metadata to display in the notification:
-        album: "Album name",
-        title: "Song name",
-        artUri: Uri.parse('https://example.com/albumart.jpg'),
-      ),
-    );
     _audioPlayer.play();
   }
 
