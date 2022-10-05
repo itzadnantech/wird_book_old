@@ -26,7 +26,7 @@ class AllWirdsPage extends StatefulWidget {
 }
 
 class _AllWirdsPageState extends State<AllWirdsPage> {
-  List<Wird> wirds;
+  late List<Wird> wirds;
 
   final progressNotifier = ValueNotifier<ProgressBarState>(
     ProgressBarState(
@@ -37,7 +37,7 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
   );
   final buttonNotifier = ValueNotifier<ButtonState>(ButtonState.paused);
 
-  AudioPlayer _audioPlayer;
+  late AudioPlayer _audioPlayer;
   double _value = config.fontSize_min;
   double _prevScale = config.prevScale;
   double _scale = config.scale;
@@ -336,9 +336,9 @@ class _AllWirdsPageState extends State<AllWirdsPage> {
 
 class ProgressBarState {
   ProgressBarState({
-    this.current,
-    this.buffered,
-    this.total,
+    required this.current,
+    required this.buffered,
+    required this.total,
   });
   final Duration current;
   final Duration buffered;

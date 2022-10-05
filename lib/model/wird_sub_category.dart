@@ -5,10 +5,10 @@ class Wird_Sub_Category {
   final String wird_audio_link;
 
   const Wird_Sub_Category({
-    this.wird_cat_id,
-    this.wird_sub_cat_id,
-    this.wird_sub_cat_title,
-    this.wird_audio_link,
+    required this.wird_cat_id,
+    required this.wird_sub_cat_id,
+    required this.wird_sub_cat_title,
+    required this.wird_audio_link,
   });
 
   factory Wird_Sub_Category.fromJson(Map<String, dynamic> json) =>

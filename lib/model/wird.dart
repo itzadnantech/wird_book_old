@@ -7,12 +7,12 @@ class Wird {
   final String repetition;
 
   const Wird({
-    this.wird_cat_id,
-    this.wird_sub_cat_id,
-    this.wird_id,
-    this.wird_description,
-    this.wird_audio_link,
-    this.repetition,
+    required this.wird_cat_id,
+    required this.wird_sub_cat_id,
+    required this.wird_id,
+    required this.wird_description,
+    required this.wird_audio_link,
+    required this.repetition,
   });
 
   factory Wird.fromJson(Map<String, dynamic> json) => Wird(

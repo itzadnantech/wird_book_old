@@ -17,7 +17,7 @@ class AllWirdSubCatPage extends StatefulWidget {
 }
 
 class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
-  List<Wird_Sub_Category> subwirds;
+  late List<Wird_Sub_Category> subwirds;
 
   double _value = config.fontSize_min;
   double _prevScale = config.prevScale;
@@ -73,7 +73,7 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
           backgroundColor: Color(config.colorPrimary),
           centerTitle: true,
           title:
-              Text(getTranslated(context, 'wird_cat_id_' + widget.wird_cat_id)),
+              Text(getTranslated(context, 'wird_cat_id_${widget.wird_cat_id}')),
           actions: <Widget>[
             IconButton(
                 icon: Icon(Icons.settings),
@@ -91,10 +91,8 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
                 itemCount: subwirds.length,
                 itemBuilder: (context, index) {
                   final subwird = subwirds[index];
-                  String sub_wird_title = "wird_sub_cat_id_" +
-                      widget.wird_cat_id +
-                      "_" +
-                      subwird.wird_sub_cat_id;
+                  String? sub_wird_title =
+                      "wird_sub_cat_id_${widget.wird_cat_id}_${subwird.wird_sub_cat_id}";
                   return buildBook(subwird, sub_wird_title, context);
                 },
               ),
@@ -105,6 +103,7 @@ class _AllWirdSubCatPageState extends State<AllWirdSubCatPage> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget buildBook(Wird_Sub_Category list, sub_wird_title, context) =>
       Container(
         // margin: EdgeInsets.all(15),

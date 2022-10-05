@@ -9,7 +9,7 @@ import 'package:wird_book/pages/setting_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AthkarsPage extends StatefulWidget {
-  const AthkarsPage({Key key}) : super(key: key);
+  const AthkarsPage({Key? key}) : super(key: key);
 
   @override
   _AthkarsPageState createState() => _AthkarsPageState();
@@ -18,7 +18,7 @@ class AthkarsPage extends StatefulWidget {
 class _AthkarsPageState extends State<AthkarsPage> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
-  List<Wird_Category> list_wird_category;
+  late List<Wird_Category> list_wird_category;
   String query = '';
   double _value = config.fontSize_min;
   double _prevScale = config.prevScale;

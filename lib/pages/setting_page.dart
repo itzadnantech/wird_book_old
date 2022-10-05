@@ -8,7 +8,7 @@ import 'package:wird_book/localization/language_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingPage extends StatefulWidget {
-  SettingPage({Key key}) : super(key: key);
+  SettingPage({Key? key}) : super(key: key);
 
   @override
   _SettingPageState createState() => _SettingPageState();
@@ -18,7 +18,7 @@ class _SettingPageState extends State<SettingPage> {
   double _value = config.fontSize_min;
   double _prevScale = config.prevScale;
   double _scale = config.scale;
-  String selected_lng;
+  late String selected_lng;
 
   @override
   void initState() {

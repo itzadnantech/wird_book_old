@@ -31,6 +31,7 @@ Locale _locale(String languageCode) {
   }
 }
 
-String getTranslated(BuildContext context, String key) {
-  return DemoLocalization.of(context).translate(key);
+getTranslated(BuildContext context, String key) {
+  var demoLocalization = DemoLocalization.of(context)!;
+  return demoLocalization.translate(key);
 }

@@ -3,8 +3,8 @@ class Wird_Category {
   final String wird_cat_title;
 
   const Wird_Category({
-    this.wird_cat_id,
-    this.wird_cat_title,
+    required this.wird_cat_id,
+    required this.wird_cat_title,
   });
 
   factory Wird_Category.fromJson(Map<String, dynamic> json) => Wird_Category(
