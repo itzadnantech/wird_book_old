@@ -58,6 +58,7 @@ class _SettingPageState extends State<SettingPage> {
     return _value;
   }
 
+  // ignore: non_constant_identifier_names
   void fontSizeSlider_async() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {

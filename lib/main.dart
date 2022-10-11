@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'localization/language_constants.dart';
 import 'package:wird_book/config.dart' as config;
 
+import 'package:audio_service/audio_service.dart';
+
 Future<void> main() async {
   runApp(
     MultiProvider(

@@ -6,6 +6,7 @@ import 'package:wird_book/widget/search_widget.dart';
 import 'package:wird_book/data/all_wird_cats.dart';
 import 'package:wird_book/model/wird_category.dart';
 import 'package:wird_book/pages/setting_page.dart';
+import 'package:wird_book/pages/test_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AthkarsPage extends StatefulWidget {
@@ -192,6 +193,6 @@ class _AthkarsPageState extends State<AthkarsPage> {
   ///Setting Page
   void _navigateToSettingPage(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => SettingPage()));
+        .push(MaterialPageRoute(builder: (context) => TestPage()));
   }
 }
